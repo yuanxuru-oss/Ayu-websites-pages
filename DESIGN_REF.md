@@ -28,3 +28,19 @@ icons/ 目录下 10 个 SVG:
 
 ## NookPhone 13 色
 default/app-pink/purple/app-blue/app-yellow/app-orange/app-teal/app-green/app-red/lime-green/yellow-green/brown/warm-peach-pink
+
+## 素材获取
+本地 skill 只有 SKILL.md 规范文档，不含 SVG/图片素材。
+所有官方素材从 npm 包 CDN 获取：
+```
+https://unpkg.com/animal-island-ui@1.2.2/dist/files/
+```
+常用素材直链：
+- footer-sea.svg: https://unpkg.com/animal-island-ui@1.2.2/dist/files/footer-sea.42da0dab.svg
+- footer-tree.webp: https://unpkg.com/animal-island-ui@1.2.2/dist/files/footer-tree.00819557.webp
+- cursor-icon.png: https://unpkg.com/animal-island-ui@1.2.2/dist/files/cursor-icon.1ea93a65.png
+- divider-line-brown.svg / teal / yellow
+- wave-yellow.svg
+- 10 个 icon SVG (icon-miles/diy/camera/variant/chat/helicopter/map/design/critterpedia/shopping)
+- Wallet item-022.png (Nook 钱袋)
+- NookPhone 相关: wifi.svg / location.svg / page.svg / select-cursor.svg
