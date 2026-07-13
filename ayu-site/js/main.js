@@ -159,8 +159,8 @@ function loadAnimalese() {
     xhr.responseType = 'arraybuffer';
     xhr.onload = (function(letter) {
       return function() {
-        if (xhr.status === 200 || xhr.status === 0) {
-          ctx.decodeAudioData(xhr.response, function(audio) {
+        if (this.status === 200 || this.status === 0) {
+          ctx.decodeAudioData(this.response, function(audio) {
             ANIMALESE_BUFFERS[letter] = audio;
             loaded++;
             if (loaded >= letters.length) animaleseLoaded = true;
@@ -206,8 +206,7 @@ function animalese(char) {
     src.buffer = buffer;
     src.detune.value = (Math.random() * 200 - 100);
     src.connect(animaleseGainNode);
-    // 延迟 5ms 启动，给上一个 stop() 留出清理时间，防止叠音
-    src.start(now + 0.005);
+    src.start(now);
     animalesePrevSrc = src;
   } catch(e) {}
 }
