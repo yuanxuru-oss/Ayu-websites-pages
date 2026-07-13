@@ -402,7 +402,7 @@ var EMBEDDED_WORKS = [
 
 function loadGalleryFromJSON(callback) {
   // 先尝试 fetch data.json，失败则用内嵌数据兜底
-  fetch('data.json?v=3')
+  fetch('data.json?v=c491c97')
     .then(function(res) {
       if (!res.ok) throw new Error('fetch failed');
       return res.json();
