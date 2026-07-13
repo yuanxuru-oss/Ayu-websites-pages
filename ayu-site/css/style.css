@@ -1399,16 +1399,14 @@ body {
 .sp-desc p { margin: 0 0 12px; }
 .sp-desc p:last-child { margin-bottom: 0; }
 
-/* Extra images */
-.sp-extra {
-  display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px;
-}
+/* Keep work detail images at their original aspect ratio. */
+.sp-extra { margin-bottom: 24px; }
 .sp-extra img {
-  width: calc(50% - 5px);
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(61,52,40,0.10);
-  object-fit: cover; aspect-ratio: 4/3;
-  background: #e8eddc;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
 }
 .sp-extra:empty { display: none; }
 
