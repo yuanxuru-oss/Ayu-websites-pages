@@ -392,7 +392,7 @@ var EMBEDDED_WORKS = [
     "id": "work-1783908155067-silk",
     "title": "丝路远航",
     "date": "2025.10",
-    "imgMain": "works/silk-voyage_thumb.jpg",
+    "imgMain": "works/silk-voyage-cover.png",
     "tags": ["插画", "非遗", "IP"],
     "summary": "\"丝路远航\"是融合福建深厚海洋文化与现代创意的IP形象。两位角色云澜与远帆分别代表传纺的沉思与当代的创新——云澜如古瓷般精致内敛，承载历史的厚重；远帆似扬帆般热烈开放，连释文化的生命力。",
     "desc": "",
