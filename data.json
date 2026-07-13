@@ -1,19 +1,37 @@
-[
+﻿[
   {
     "id": "work-1783856077057-572",
-    "title": "双子星·刺桐双子星",
+    "title": "鍙屽瓙鏄熉峰埡妗愬弻瀛愭槦",
     "date": "2025.10",
     "imgMain": "works/image (14)_thumb.jpg",
     "tags": [
-      "非遗",
+      "闈為仐",
       "IP"
     ],
     "summary": "",
     "desc": "",
     "extra": [
-      "works/双子星1_extra.jpg",
-      "works/双子星2_extra.jpg",
-      "works/双子星3_extra.jpg"
+      "works/鍙屽瓙鏄?_extra.jpg",
+      "works/鍙屽瓙鏄?_extra.jpg",
+      "works/鍙屽瓙鏄?_extra.jpg"
+    ]
+  },
+  {
+    "id": "work-1783908155067-silk",
+    "title": "涓濊矾杩滆埅",
+    "date": "2025.10",
+    "imgMain": "works/silk-voyage_thumb.jpg",
+    "tags": [
+      "鎻掔敾",
+      "闈為仐",
+      "IP"
+    ],
+    "summary": ""涓濊矾杩滆埅"鏄瀺鍚堢寤烘繁鍘氭捣娲嬫枃鍖栦笌鐜颁唬鍒涙剰鐨処P褰㈣薄銆備袱浣嶈鑹蹭簯婢滀笌杩滃竼鍒嗗埆浠ｈ〃浼犵汉鐨勬矇鎬濅笌褰撲唬鐨勫垱鏂扳€斺€斾簯婢滃鍙ょ摲鑸簿鑷村唴鏁涳紝鎵胯浇鍘嗗彶鐨勫帤閲嶏紱杩滃竼浼兼壃甯嗚埇鐑儓寮€鏀撅紝杩為噴鏂囧寲鐨勭敓鍛藉姏銆?,
+    "desc": "",
+    "extra": [
+      "works/silk-voyage-1.jpg",
+      "works/silk-voyage-2.jpg",
+      "works/silk-voyage-3.jpg"
     ]
   }
 ]
