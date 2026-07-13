@@ -375,21 +375,46 @@ function resolveImgSrc(src, callback) {
 }
 
 // --- 从 data.json 加载作品 ---
+// 内嵌数据作为兜底，避免网络请求失败时画廊为空
+
+var EMBEDDED_WORKS = [
+  {
+    "id": "work-1783856077057-572",
+    "title": "双子星·刺桐双子星",
+    "date": "2025.10",
+    "imgMain": "works/image (14)_thumb.jpg",
+    "tags": ["非遗", "IP"],
+    "summary": "",
+    "desc": "",
+    "extra": ["works/双子星1_extra.jpg", "works/双子星2_extra.jpg", "works/双子星3_extra.jpg"]
+  },
+  {
+    "id": "work-1783908155067-silk",
+    "title": "丝路远航",
+    "date": "2025.10",
+    "imgMain": "works/silk-voyage_thumb.jpg",
+    "tags": ["插画", "非遗", "IP"],
+    "summary": "\"丝路远航\"是融合福建深厚海洋文化与现代创意的IP形象。两位角色云澜与远帆分别代表传纺的沉思与当代的创新——云澜如古瓷般精致内敛，承载历史的厚重；远帆似扬帆般热烈开放，连释文化的生命力。",
+    "desc": "",
+    "extra": ["works/silk-voyage-1.jpg", "works/silk-voyage-2.jpg", "works/silk-voyage-3.jpg"]
+  }
+];
 
 function loadGalleryFromJSON(callback) {
-  fetch('data.json?v=2')
+  // 先尝试 fetch data.json，失败则用内嵌数据兜底
+  fetch('data.json?v=3')
     .then(function(res) {
-      if (!res.ok) { callback([]); return; }
+      if (!res.ok) throw new Error('fetch failed');
       return res.json();
     })
     .then(function(data) {
-      if (data && data.length) {
-        callback(data);
-      } else {
-        callback([]);
-      }
+      if (data && data.length) { callback(data); return; }
+      throw new Error('empty data');
     })
-    .catch(function() { callback([]); });
+    .catch(function() {
+      // 网络请求失败 → 用内嵌数据
+      callback(EMBEDDED_WORKS);
+    });
 }
 
 // --- 渲染画廊卡片 ---
