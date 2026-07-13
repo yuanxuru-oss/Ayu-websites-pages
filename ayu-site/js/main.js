@@ -377,22 +377,19 @@ function resolveImgSrc(src, callback) {
 // --- 从 data.json 加载作品 ---
 
 function loadGalleryFromJSON(callback) {
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'data.json?v=2', true);
-  xhr.onload = function() {
-    if (xhr.status === 200 || xhr.status === 0) {
-      try {
-        var data = JSON.parse(xhr.responseText);
-        if (data && data.length) {
-          callback(data);
-          return;
-        }
-      } catch(e) {}
-    }
-    callback([]);
-  };
-  xhr.onerror = function() { callback([]); };
-  xhr.send();
+  fetch('data.json?v=2')
+    .then(function(res) {
+      if (!res.ok) { callback([]); return; }
+      return res.json();
+    })
+    .then(function(data) {
+      if (data && data.length) {
+        callback(data);
+      } else {
+        callback([]);
+      }
+    })
+    .catch(function() { callback([]); });
 }
 
 // --- 渲染画廊卡片 ---
