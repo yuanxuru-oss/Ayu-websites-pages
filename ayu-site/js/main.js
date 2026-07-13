@@ -378,7 +378,7 @@ function resolveImgSrc(src, callback) {
 
 function loadGalleryFromJSON(callback) {
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'data.json', true);
+  xhr.open('GET', 'data.json?v=2', true);
   xhr.onload = function() {
     if (xhr.status === 200 || xhr.status === 0) {
       try {
@@ -454,9 +454,17 @@ function renderGallery(works) {
 
 // --- 初始化画廊 ---
 (function initGallery() {
-  loadGalleryFromJSON(function(data) {
-    renderGallery(data);
-  });
+  // 确保 DOM 就绪后再加载
+  function boot() {
+    loadGalleryFromJSON(function(data) {
+      renderGallery(data);
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
 })();
 
 // --- 画廊左右箭头滚动 ---
