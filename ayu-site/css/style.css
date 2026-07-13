@@ -1,4 +1,4 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700&family=ZCOOL+KuaiLe&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700&family=ZCOOL+KuaiLe&display=swap');
 
 /* Register --mask-r for CSS mask animation (Chrome/Safari) */
 @property --mask-r {
@@ -589,38 +589,38 @@ body {
 .section-island[data-theme="contact"]   { --sec-accent: var(--accent-contact); }
 
 /* === Section-themed subtle decorative marks (AC-style: small icons instead of big glows) === */
-/* About (green) 鈥?tiny grass/leaf dots */
+/* About (green) — tiny grass/leaf dots */
 .section-island[data-theme="about"] .section-header::before {
-  content: '馃尶'; font-size: 2.5rem; opacity: 0.12; pointer-events: none;
+  content: '🌿'; font-size: 2.5rem; opacity: 0.12; pointer-events: none;
   position: absolute; left: 12%; top: 50px;
 }
-/* Projects (teal) 鈥?tiny tool/gear marks */
+/* Projects (teal) — tiny tool/gear marks */
 .section-island[data-theme="projects"] .section-header::before {
-  content: '鈿欙笍'; font-size: 2.2rem; opacity: 0.12; pointer-events: none;
+  content: '⚙️'; font-size: 2.2rem; opacity: 0.12; pointer-events: none;
   position: absolute; left: 12%; top: 50px;
 }
-/* Competitions (amber) 鈥?tiny star */
+/* Competitions (amber) — tiny star */
 .section-island[data-theme="competitions"] .section-header::before {
-  content: '猸?; font-size: 2.4rem; opacity: 0.14; pointer-events: none;
+  content: '⭐'; font-size: 2.4rem; opacity: 0.14; pointer-events: none;
   position: absolute; left: 12%; top: 50px;
 }
-/* Works (rose) 鈥?tiny flower */
+/* Works (rose) — tiny flower */
 .section-island[data-theme="works"] .section-header::before {
-  content: '馃尭'; font-size: 2.3rem; opacity: 0.14; pointer-events: none;
+  content: '🌸'; font-size: 2.3rem; opacity: 0.14; pointer-events: none;
   position: absolute; left: 12%; top: 50px;
 }
-/* Contact (blue) 鈥?tiny wave/water drop */
+/* Contact (blue) — tiny wave/water drop */
 .section-island[data-theme="contact"] .section-header::before {
-  content: '馃挧'; font-size: 2.2rem; opacity: 0.12; pointer-events: none;
+  content: '💧'; font-size: 2.2rem; opacity: 0.12; pointer-events: none;
   position: absolute; left: 12%; top: 50px;
 }
 
 /* Small decorative corner marks per section */
-.section-island[data-theme="about"]::before     { content: '路  路  路'; }
-.section-island[data-theme="projects"]::before  { content: '鈭? 鈭? 鈭?; }
-.section-island[data-theme="competitions"]::before { content: '鉁? 鉁? 鉁?; }
-.section-island[data-theme="works"]::before     { content: '鉁? 鉁? 鉁?; }
-.section-island[data-theme="contact"]::before   { content: '銆? 銆? 銆?; }
+.section-island[data-theme="about"]::before     { content: '·  ·  ·'; }
+.section-island[data-theme="projects"]::before  { content: '∘  ∘  ∘'; }
+.section-island[data-theme="competitions"]::before { content: '✦  ✦  ✦'; }
+.section-island[data-theme="works"]::before     { content: '✿  ✿  ✿'; }
+.section-island[data-theme="contact"]::before   { content: '〜  〜  〜'; }
 
 .section-island::before {
   position: absolute;
@@ -785,7 +785,7 @@ body {
   position: relative;
   width: min(720px, 92vw);
   margin: 0 auto;
-  /* No card background 鈥?only the gallery cards remain */
+  /* No card background — only the gallery cards remain */
   background: transparent;
   border-radius: 0;
   padding: 0;
@@ -800,13 +800,13 @@ body {
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   padding: 10px 12px 8px;
-  /* Hide scrollbar 鈥?keep functionality */
+  /* Hide scrollbar — keep functionality */
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
 .gallery-track::-webkit-scrollbar { display: none; }
 
-/* Memo Card 鈥?AC Nook Miles mission card style */
+/* Memo Card — AC Nook Miles mission card style */
 .memo-card {
   flex: 0 0 220px;
   scroll-snap-align: start;
@@ -838,7 +838,7 @@ body {
 
 /* AC stamp-style decorative badge top-right */
 .memo-card::before {
-  content: '鉁?;
+  content: '✦';
   position: absolute;
   top: 10px;
   right: 12px;
@@ -910,7 +910,7 @@ body {
   white-space: nowrap;
 }
 
-/* Detail button 鈥?animal-island-ui outline pill */
+/* Detail button — animal-island-ui outline pill */
 .memo-detail-btn {
   font-family: Nunito, 'Noto Sans SC', sans-serif;
   font-size: 0.72rem;
@@ -976,20 +976,20 @@ body {
 .gallery-arrow-left  { left: 4px; }
 .gallery-arrow-right { right: 4px; }
 
-/* === Work Detail 鈥?AC Dashboard Style === */
+/* === Work Detail — AC Dashboard Style === */
 .work-detail-overlay {
   position: fixed; inset: 0; z-index: 150;
   opacity: 0; pointer-events: none;
   transition: opacity 0.3s;
   display: flex; flex-direction: column;
   overflow: hidden;
-  /* AC triangle pattern background 鈥?using provided tile image */
+  /* AC triangle pattern background — using provided tile image */
   background: url('bg-pattern.png') repeat;
   background-size: 200px 200px;
 }
 .work-detail-overlay.open { opacity: 1; pointer-events: auto; }
 
-/* Page header 鈥?AC dashboard nav bar */
+/* Page header — AC dashboard nav bar */
 .sp-header {
   flex-shrink: 0;
   display: flex;
@@ -1034,7 +1034,7 @@ body {
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 
-/* Scrollable body 鈥?two-column dashboard layout */
+/* Scrollable body — two-column dashboard layout */
 .sp-page {
   flex: 1; overflow-y: auto;
   scrollbar-width: thin;
@@ -1054,7 +1054,7 @@ body {
   flex: 1;
   min-width: 0;
 }
-/* Content card 鈥?AC white floating card */
+/* Content card — AC white floating card */
 .sp-card {
   background: #ffffff;
   border-radius: 24px;
@@ -1062,7 +1062,7 @@ body {
   overflow: hidden;
 }
 
-/* Hero card 鈥?full-width KV image */
+/* Hero card — full-width KV image */
 .sp-hero-card {
   position: relative;
   padding: 0;
@@ -1476,7 +1476,7 @@ body {
 }
 
 
-/* Island scene 鈥?palm tree + fish */
+/* Island scene — palm tree + fish */
 .loading-island {
   position: relative;
   width: 120px; height: 90px;

@@ -1,16 +1,16 @@
-﻿// === Entry dialog interaction ===
+// === Entry dialog interaction ===
 const overlay = document.getElementById('entryOverlay');
 const penguin = document.getElementById('entryPenguin');
 const greeting = document.getElementById('greeting');
 
 var greetings = [
-  '娆㈣繋鏉ュ埌<strong>闃块奔鐨勫皬宀?/strong>锛佷綘鎯冲幓鍝噷鐪嬬湅锛?,
-  '浠婂ぉ澶╂皵鐪熷ソ鍛€锛佽閫涢€涘悧锛?,
-  '鍢匡紒<strong>濂戒箙涓嶈</strong>锝炴兂鍘诲摢鍎匡紵',
-  '闃块奔鍦ㄥ矝涓婄暀浜嗕簺涓滆タ锛岃鐪嬬湅鍚楋紵'
+  '欢迎来到<strong>阿鱼的小岛</strong>！你想去哪里看看？',
+  '今天天气真好呀！要逛逛吗？',
+  '嘿！<strong>好久不见</strong>～想去哪儿？',
+  '阿鱼在岛上留了些东西，要看看吗？'
 ];
 
-var greetingFull = '娆㈣繋鏉ュ埌<strong>闃块奔鐨勫皬宀?/strong>锛佷綘鎯冲幓鍝噷鐪嬬湅锛?;
+var greetingFull = '欢迎来到<strong>阿鱼的小岛</strong>！你想去哪里看看？';
 let typewriterTimer = null;
 
 // === Typewriter (matches animal-island-ui Typewriter component: preserves HTML, 90ms) ===
@@ -63,7 +63,7 @@ function typewrite(html, el, speed = 90) {
       if (txt) animalese(txt[txt.length - 1]);
       typewriterTimer = setTimeout(tick, speed);
     }
-    // Done 鈥?full HTML rendered, no cursor
+    // Done — full HTML rendered, no cursor
   }
   tick();
 }
@@ -161,7 +161,7 @@ function animalese(char) {
   } catch(e) {}
 }
 
-// Penguin click 鈫?random greeting + bounce + chime + retype
+// Penguin click → random greeting + bounce + chime + retype
 penguin.addEventListener('click', () => {
   // Resume AudioContext on user interaction (autoplay policy)
   const ctx = getCtx();
@@ -176,7 +176,7 @@ penguin.addEventListener('click', () => {
   typewrite(greetingFull, greeting, 90);
 });
 
-// Dialog option 鈫?scroll to section + dismiss overlay + chime
+// Dialog option → scroll to section + dismiss overlay + chime
 document.querySelectorAll('.dodo-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const target = btn.dataset.target;
@@ -204,7 +204,7 @@ document.addEventListener('keydown', (e) => {
 // === Passport Message Board ===
 const STORAGE_KEY = 'ayu-passports-v1';
 
-// AC-style villager avatars 鈥?drawn images
+// AC-style villager avatars — drawn images
 const VILLAGERS = [
   { id:'dog',     img:'avatars/dog.png' },
   { id:'cat1',    img:'avatars/cat1.png' },
@@ -259,7 +259,7 @@ function renderWall() {
   const wall = document.getElementById('passportWall');
   const passports = loadPassports();
   if (!passports.length) {
-    wall.innerHTML = '<p style="text-align:center;color:var(--muted);grid-column:1/-1;padding:40px">杩樻病鏈夊矝姘戞姢鐓р€︽潵鍋氱涓€涓暀瑷€鐨勪汉鍚?馃惂</p>';
+    wall.innerHTML = '<p style="text-align:center;color:var(--muted);grid-column:1/-1;padding:40px">还没有岛民护照…来做第一个留言的人吧 🐧</p>';
     return;
   }
   wall.innerHTML = passports.map((p, i) => `
@@ -270,7 +270,7 @@ function renderWall() {
         <div class="vp-time">${p.time}</div>
         <div class="vp-message">${esc(p.message)}</div>
       </div>
-      <button class="vp-delete" onclick="deletePassport(${i})" title="鍒犻櫎">鉁?/button>
+      <button class="vp-delete" onclick="deletePassport(${i})" title="删除">✕</button>
     </div>
   `).reverse().join('');
 }
@@ -282,7 +282,7 @@ function esc(str) {
 }
 
 window.deletePassport = function(index) {
-  if (!confirm('纭畾瑕佸垹闄よ繖鏉℃姢鐓у悧锛?)) return;
+  if (!confirm('确定要删除这条护照吗？')) return;
   const passports = loadPassports();
   // Reverse index since wall shows newest first
   const realIndex = passports.length - 1 - index;
@@ -333,7 +333,7 @@ renderWall();
 
 // ===== SITE DATA LOADER (shared admin/index) =====
 
-// === Dynamic Gallery 鈥?reads from localStorage (fallback to data.json) ===
+// === Dynamic Gallery — reads from localStorage (fallback to data.json) ===
 var AYU_WORKS_KEY = 'ayu-works-admin';
 var IMG_DB = null;
 
@@ -360,7 +360,7 @@ function resolveImgSrc(src, callback) {
 }
 
 function loadWorks() {
-  // Always load from data.json 鈥?no localStorage caching
+  // Always load from data.json — no localStorage caching
   // (caching caused stale/garbled data issues)
   return null;
 }
@@ -394,27 +394,27 @@ function renderGallery(works) {
   var html = '';
   var total = works.length;
   if (!total) {
-    html = '<div class="memo-card"><div class="memo-img memo-img-empty"><span>馃摳</span></div><div class="memo-body"><h3>鏇村鍒涗綔涓€?/h3><p>鏂扮殑鎻掔敾鍜岃璁′綔鍝佹鍦ㄨ矾涓娿€?/p><div class="memo-footer"><span class="memo-date">鈥?/span><button class="memo-detail-btn" disabled>鏁鏈熷緟</button></div></div></div>';
+    html = '<div class="memo-card"><div class="memo-img memo-img-empty"><span>📸</span></div><div class="memo-body"><h3>更多创作中…</h3><p>新的插画和设计作品正在路上。</p><div class="memo-footer"><span class="memo-date">…</span><button class="memo-detail-btn" disabled>敬请期待</button></div></div></div>';
     track.innerHTML = html;
     return;
   }
 
   works.forEach(function(w, idx) {
     html += '<div class="memo-card" data-work-id="' + w.id + '">' +
-      '<div class="memo-img" id="memoImg' + idx + '"><span>馃摳</span></div>' +
+      '<div class="memo-img" id="memoImg' + idx + '"><span>📸</span></div>' +
       '<div class="memo-body">' +
         '<h3>' + (w.title || '') + '</h3>' +
         '<p>' + (w.summary || '') + '</p>' +
         '<div class="memo-footer">' +
           '<span class="memo-date">' + (w.date || '') + '</span>' +
-          '<button class="memo-detail-btn">浣滃搧璇︽儏 鈻?/button>' +
+          '<button class="memo-detail-btn">作品详情 ▸</button>' +
         '</div>' +
       '</div>' +
     '</div>';
   });
 
   // Always append placeholder
-  html += '<div class="memo-card"><div class="memo-img memo-img-empty"><span>馃摳</span></div><div class="memo-body"><h3>鏇村鍒涗綔涓€?/h3><p>鏂扮殑鎻掔敾鍜岃璁′綔鍝佹鍦ㄨ矾涓娿€?/p><div class="memo-footer"><span class="memo-date">鈥?/span><button class="memo-detail-btn" disabled>鏁鏈熷緟</button></div></div></div>';
+  html += '<div class="memo-card"><div class="memo-img memo-img-empty"><span>📸</span></div><div class="memo-body"><h3>更多创作中…</h3><p>新的插画和设计作品正在路上。</p><div class="memo-footer"><span class="memo-date">…</span><button class="memo-detail-btn" disabled>敬请期待</button></div></div></div>';
 
   track.innerHTML = html;
 
@@ -460,12 +460,12 @@ function renderGallery(works) {
   });
 })();
 
-// === Work Detail 鈥?Scrapbook Collage ===
+// === Work Detail — Scrapbook Collage ===
 (function() {
   var overlay = document.getElementById('workDetailOverlay');
   if (!overlay) return;
 
-  // Dynamic works map 鈥?populated by loadWorks() from localStorage
+  // Dynamic works map — populated by loadWorks() from localStorage
   window._ayuWorksMap = {};
 
   function buildMap(data) {
@@ -504,7 +504,7 @@ function renderGallery(works) {
     document.body.style.overflow = '';
   }
 
-  // Event delegation 鈥?any gallery card button triggers open via data-work-id
+  // Event delegation — any gallery card button triggers open via data-work-id
   document.getElementById('galleryTrack').addEventListener('click', function(e) {
     var btn = e.target.closest('.memo-detail-btn');
     if (!btn || btn.disabled) return;
@@ -532,12 +532,12 @@ function toggleLike() {
   if (liked) {
     likeCount++;
     btn.classList.add('liked');
-    heart.textContent = '馃挆';
+    heart.textContent = '💗';
     chime(880, 0.15);
   } else {
     likeCount = Math.max(0, likeCount - 1);
     btn.classList.remove('liked');
-    heart.textContent = '馃';
+    heart.textContent = '🤍';
   }
   count.textContent = likeCount;
 }
@@ -549,7 +549,7 @@ function toggleLike() {
   if (!splash) return;
   let dismissed = false;
 
-  // Start progress bar fill: 0% 鈫?100% over ~2s
+  // Start progress bar fill: 0% → 100% over ~2s
   function startProgress() {
     let pct = 0;
     const interval = setInterval(() => {
@@ -567,7 +567,7 @@ function toggleLike() {
     splash.classList.add('reveal');
     // Pre-load animalese + start typewriter as mask reveals
     loadAnimalese();
-    // Start typewriter shortly after 鈥?animalese loads async via XHR
+    // Start typewriter shortly after — animalese loads async via XHR
     setTimeout(function() { typewrite(greetingFull, greeting, 90); }, 300);
     setTimeout(() => { if (splash.parentNode) splash.remove(); }, 700);
   }
