@@ -1,4 +1,13 @@
-// === Entry dialog interaction ===
+// ╔══════════════════════════════════════════════════════════╗
+// ║          阿鱼小岛 · main.js                              ║
+// ║          入口对话 / 音效 / 护照 / 画廊 / 加载动画          ║
+// ╚══════════════════════════════════════════════════════════╝
+
+
+// ============================================================
+//  1. 入口对话 & 打字机效果
+// ============================================================
+
 const overlay = document.getElementById('entryOverlay');
 const penguin = document.getElementById('entryPenguin');
 const greeting = document.getElementById('greeting');
@@ -13,8 +22,8 @@ var greetings = [
 var greetingFull = '欢迎来到<strong>阿鱼的小岛</strong>！你想去哪里看看？';
 let typewriterTimer = null;
 
-// === Typewriter (matches animal-island-ui Typewriter component: preserves HTML, 90ms) ===
-// Counts total plain-text length across all text nodes in a DOM fragment
+// --- 打字机核心 ---
+
 function countText(root) {
   let n = 0;
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
@@ -22,7 +31,6 @@ function countText(root) {
   return n;
 }
 
-// Recursively truncate text nodes so total visible chars <= limit
 function truncateTextNodes(root, limit) {
   let remaining = limit;
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
@@ -37,7 +45,6 @@ function truncateTextNodes(root, limit) {
   }
 }
 
-// Clone source HTML, truncate to 'count' visible chars, return HTML string
 function renderTruncated(sourceHTML, count) {
   const tmpl = document.createElement('div');
   tmpl.innerHTML = sourceHTML;
@@ -45,7 +52,8 @@ function renderTruncated(sourceHTML, count) {
   return tmpl.innerHTML;
 }
 
-function typewrite(html, el, speed = 90) {
+function typewrite(html, el, speed) {
+  speed = speed || 90;
   if (typewriterTimer) clearTimeout(typewriterTimer);
   const total = (function() {
     const d = document.createElement('div'); d.innerHTML = html;
@@ -57,116 +65,20 @@ function typewrite(html, el, speed = 90) {
     if (i < total) {
       i++;
       el.innerHTML = renderTruncated(html, i);
-      // Animalese chirp per character
       const tmp = document.createElement('div'); tmp.innerHTML = renderTruncated(html, i);
       const txt = tmp.textContent || '';
       if (txt) animalese(txt[txt.length - 1]);
       typewriterTimer = setTimeout(tick, speed);
     }
-    // Done — full HTML rendered, no cursor
   }
   tick();
 }
 
-// === Sound effect (Web Audio chime) ===
-let audioCtx = null;
-function getCtx() {
-  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  return audioCtx;
-}
-function chime(freq = 800, duration = 0.15) {
-  try {
-    const ctx = getCtx();
-    if (ctx.state === 'suspended') { try { ctx.resume(); } catch(e) {} }
-    const o = ctx.createOscillator();
-    const g = ctx.createGain();
-    o.connect(g); g.connect(ctx.destination);
-    o.type = 'sine'; o.frequency.value = freq;
-    g.gain.setValueAtTime(0.15, ctx.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
-    o.start(ctx.currentTime); o.stop(ctx.currentTime + duration);
-  } catch(e) {}
-}
+// --- 入口交互 ---
 
-// === Real Animalese audio (from animalese-typing extension, MIT license) ===
-const ANIMALESE_BUFFERS = {};
-let animaleseLoaded = false;
-let animaleseLoading = false;
-
-function loadAnimalese() {
-  if (animaleseLoaded || animaleseLoading) return;
-  animaleseLoading = true;
-  const ctx = getCtx();
+penguin.addEventListener('click', function() {
+  var ctx = getCtx();
   if (ctx.state === 'suspended') { try { ctx.resume(); } catch(e) {} }
-  const letters = 'abcdefghijklmnopqrstuvwxyz';
-  const base = 'animalese/';
-  let loaded = 0;
-  for (const l of letters) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', base + l + '.aac', true);
-    xhr.responseType = 'arraybuffer';
-    xhr.onload = function() {
-      if (xhr.status === 200 || xhr.status === 0) {
-        ctx.decodeAudioData(xhr.response, function(audio) {
-          ANIMALESE_BUFFERS[l] = audio;
-          loaded++;
-          if (loaded >= letters.length) animaleseLoaded = true;
-        }, function() {});
-      }
-    };
-    xhr.onerror = function() {};
-    xhr.send();
-  }
-}
-
-// Shared gain node + track last source for instant cutoff
-let animaleseGainNode = null;
-let animalesePrevSrc = null;
-
-function animalese(char) {
-  try {
-    const ctx = getCtx();
-    if (ctx.state === 'suspended') { try { ctx.resume(); } catch(e) {} }
-    // Lazy-load if not started
-    if (!animaleseLoaded && !animaleseLoading) loadAnimalese();
-    const now = ctx.currentTime;
-    // Kill previous sound instantly
-    if (animalesePrevSrc) {
-      try { animalesePrevSrc.stop(now); } catch(_) {}
-      animalesePrevSrc = null;
-    }
-    const lower = char.toLowerCase();
-    let buffer = ANIMALESE_BUFFERS[lower];
-    if (!buffer) {
-      const keys = Object.keys(ANIMALESE_BUFFERS);
-      if (keys.length) {
-        buffer = ANIMALESE_BUFFERS[keys[Math.floor(Math.random() * keys.length)]];
-      } else {
-        // Fallback: chime if animalese not yet loaded
-        chime(600 + Math.random() * 400, 0.08);
-        return;
-      }
-    }
-    if (!animaleseGainNode) {
-      animaleseGainNode = ctx.createGain();
-      animaleseGainNode.connect(ctx.destination);
-    }
-    animaleseGainNode.gain.setValueAtTime(0.25, now);
-    const src = ctx.createBufferSource();
-    src.buffer = buffer;
-    src.detune.value = (Math.random() * 200 - 100);
-    src.connect(animaleseGainNode);
-    src.start(now);
-    animalesePrevSrc = src;
-  } catch(e) {}
-}
-
-// Penguin click → random greeting + bounce + chime + retype
-penguin.addEventListener('click', () => {
-  // Resume AudioContext on user interaction (autoplay policy)
-  const ctx = getCtx();
-  if (ctx.state === 'suspended') { try { ctx.resume(); } catch(e) {} }
-  // Lazy-load animalese if not yet loaded
   if (!animaleseLoaded && !animaleseLoading) loadAnimalese();
   if (greetings.length > 0) greetingFull = greetings[Math.floor(Math.random() * greetings.length)];
   penguin.style.animation = 'none';
@@ -176,36 +88,137 @@ penguin.addEventListener('click', () => {
   typewrite(greetingFull, greeting, 90);
 });
 
-// Dialog option → scroll to section + dismiss overlay + chime
-document.querySelectorAll('.dodo-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const target = btn.dataset.target;
+document.querySelectorAll('.dodo-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var target = btn.dataset.target;
     overlay.classList.add('dismissed');
     chime(660, 0.18);
     if (target) {
-      const el = document.getElementById(target);
-      if (el) {
-        setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 400);
-      }
+      var el = document.getElementById(target);
+      if (el) setTimeout(function() { el.scrollIntoView({ behavior: 'smooth' }); }, 400);
     }
   });
 });
 
-// Also dismiss overlay when clicking background
-overlay.addEventListener('click', (e) => {
+overlay.addEventListener('click', function(e) {
   if (e.target === overlay) overlay.classList.add('dismissed');
 });
 
-// Keyboard: Escape dismisses
-document.addEventListener('keydown', (e) => {
+document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') overlay.classList.add('dismissed');
 });
 
-// === Passport Message Board ===
-const STORAGE_KEY = 'ayu-passports-v1';
 
-// AC-style villager avatars — drawn images
-const VILLAGERS = [
+// ============================================================
+//  2. 音效系统 (Web Audio)
+// ============================================================
+
+var audioCtx = null;
+function getCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+
+function chime(freq, duration) {
+  freq = freq || 800;
+  duration = duration || 0.15;
+  try {
+    var ctx = getCtx();
+    if (ctx.state === 'suspended') { try { ctx.resume(); } catch(e) {} }
+    var o = ctx.createOscillator();
+    var g = ctx.createGain();
+    o.connect(g); g.connect(ctx.destination);
+    o.type = 'sine'; o.frequency.value = freq;
+    g.gain.setValueAtTime(0.15, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+    o.start(ctx.currentTime); o.stop(ctx.currentTime + duration);
+  } catch(e) {}
+}
+
+
+// ============================================================
+//  3. Animalese 动物语音效
+// ============================================================
+
+var ANIMALESE_BUFFERS = {};
+var animaleseLoaded = false;
+var animaleseLoading = false;
+
+function loadAnimalese() {
+  if (animaleseLoaded || animaleseLoading) return;
+  animaleseLoading = true;
+  var ctx = getCtx();
+  if (ctx.state === 'suspended') { try { ctx.resume(); } catch(e) {} }
+  var letters = 'abcdefghijklmnopqrstuvwxyz';
+  var base = 'animalese/';
+  var loaded = 0;
+  for (var i = 0; i < letters.length; i++) {
+    var l = letters[i];
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', base + l + '.aac', true);
+    xhr.responseType = 'arraybuffer';
+    xhr.onload = (function(letter) {
+      return function() {
+        if (xhr.status === 200 || xhr.status === 0) {
+          ctx.decodeAudioData(xhr.response, function(audio) {
+            ANIMALESE_BUFFERS[letter] = audio;
+            loaded++;
+            if (loaded >= letters.length) animaleseLoaded = true;
+          }, function() {});
+        }
+      };
+    })(l);
+    xhr.onerror = function() {};
+    xhr.send();
+  }
+}
+
+var animaleseGainNode = null;
+var animalesePrevSrc = null;
+
+function animalese(char) {
+  try {
+    var ctx = getCtx();
+    if (ctx.state === 'suspended') { try { ctx.resume(); } catch(e) {} }
+    if (!animaleseLoaded && !animaleseLoading) loadAnimalese();
+    var now = ctx.currentTime;
+    if (animalesePrevSrc) {
+      try { animalesePrevSrc.stop(now); } catch(_) {}
+      animalesePrevSrc = null;
+    }
+    var lower = char.toLowerCase();
+    var buffer = ANIMALESE_BUFFERS[lower];
+    if (!buffer) {
+      var keys = Object.keys(ANIMALESE_BUFFERS);
+      if (keys.length) {
+        buffer = ANIMALESE_BUFFERS[keys[Math.floor(Math.random() * keys.length)]];
+      } else {
+        chime(600 + Math.random() * 400, 0.08);
+        return;
+      }
+    }
+    if (!animaleseGainNode) {
+      animaleseGainNode = ctx.createGain();
+      animaleseGainNode.connect(ctx.destination);
+    }
+    animaleseGainNode.gain.setValueAtTime(0.25, now);
+    var src = ctx.createBufferSource();
+    src.buffer = buffer;
+    src.detune.value = (Math.random() * 200 - 100);
+    src.connect(animaleseGainNode);
+    src.start(now);
+    animalesePrevSrc = src;
+  } catch(e) {}
+}
+
+
+// ============================================================
+//  4. 护照留言板
+// ============================================================
+
+var STORAGE_KEY = 'ayu-passports-v1';
+
+var VILLAGERS = [
   { id:'dog',     img:'avatars/dog.png' },
   { id:'cat1',    img:'avatars/cat1.png' },
   { id:'rabbit',  img:'avatars/rabbit.png' },
@@ -217,21 +230,20 @@ const VILLAGERS = [
   { id:'cat2',    img:'avatars/cat2.png' },
   { id:'squirrel',img:'avatars/squirrel.png' },
   { id:'hamster', img:'avatars/hamster.png' },
-  { id:'bird',    img:'avatars/bird.png' },
+  { id:'bird',    img:'avatars/bird.png' }
 ];
 
-let selectedVillager = VILLAGERS[0];
+var selectedVillager = VILLAGERS[0];
 
-// Build villager avatar grid
-const emojiGrid = document.getElementById('pfEmojiGrid');
-VILLAGERS.forEach((v, i) => {
-  const btn = document.createElement('button');
+var emojiGrid = document.getElementById('pfEmojiGrid');
+VILLAGERS.forEach(function(v, i) {
+  var btn = document.createElement('button');
   btn.className = 'pf-villager-btn';
-  btn.innerHTML = `<img src="${v.img}" alt="${v.id}" class="pf-v-thumb">`;
-  btn.addEventListener('click', () => {
+  btn.innerHTML = '<img src="' + v.img + '" alt="' + v.id + '" class="pf-v-thumb">';
+  btn.addEventListener('click', function() {
     selectedVillager = v;
     updateAvatarPreview(v);
-    emojiGrid.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+    emojiGrid.querySelectorAll('button').forEach(function(b) { b.classList.remove('active'); });
     btn.classList.add('active');
     chime(1040, 0.08);
   });
@@ -240,89 +252,85 @@ VILLAGERS.forEach((v, i) => {
 });
 
 function updateAvatarPreview(v) {
-  const preview = document.getElementById('pfAvatarPreview');
-  preview.innerHTML = `<img src="${v.img}" alt="${v.id}" class="pf-preview-img">`;
+  var preview = document.getElementById('pfAvatarPreview');
+  preview.innerHTML = '<img src="' + v.img + '" alt="' + v.id + '" class="pf-preview-img">';
 }
 
-// Load existing passports
 function loadPassports() {
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-  } catch(e) { return []; }
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+  catch(e) { return []; }
 }
 
 function savePassports(passports) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(passports));
 }
 
-function renderWall() {
-  const wall = document.getElementById('passportWall');
-  const passports = loadPassports();
-  if (!passports.length) {
-    wall.innerHTML = '<p style="text-align:center;color:var(--muted);grid-column:1/-1;padding:40px">还没有岛民护照…来做第一个留言的人吧 🐧</p>';
-    return;
-  }
-  wall.innerHTML = passports.map((p, i) => `
-    <div class="visitor-passport">
-      <div class="vp-avatar"><img src="${esc(p.img)}" alt="" class="vp-img"></div>
-      <div class="vp-info">
-        <div class="vp-name">${esc(p.name)}</div>
-        <div class="vp-time">${p.time}</div>
-        <div class="vp-message">${esc(p.message)}</div>
-      </div>
-      <button class="vp-delete" onclick="deletePassport(${i})" title="删除">✕</button>
-    </div>
-  `).reverse().join('');
-}
-
 function esc(str) {
-  const d = document.createElement('div');
+  var d = document.createElement('div');
   d.textContent = str;
   return d.innerHTML;
 }
 
+function renderWall() {
+  var wall = document.getElementById('passportWall');
+  var passports = loadPassports();
+  if (!passports.length) {
+    wall.innerHTML = '<p style="text-align:center;color:var(--muted);grid-column:1/-1;padding:40px">还没有岛民护照…来做第一个留言的人吧 🐧</p>';
+    return;
+  }
+  wall.innerHTML = passports.map(function(p, i) {
+    return '<div class="visitor-passport">' +
+      '<div class="vp-avatar"><img src="' + esc(p.img) + '" alt="" class="vp-img"></div>' +
+      '<div class="vp-info">' +
+        '<div class="vp-name">' + esc(p.name) + '</div>' +
+        '<div class="vp-time">' + p.time + '</div>' +
+        '<div class="vp-message">' + esc(p.message) + '</div>' +
+      '</div>' +
+      '<button class="vp-delete" onclick="deletePassport(' + i + ')" title="删除">✕</button>' +
+    '</div>';
+  }).reverse().join('');
+}
+
 window.deletePassport = function(index) {
   if (!confirm('确定要删除这条护照吗？')) return;
-  const passports = loadPassports();
-  // Reverse index since wall shows newest first
-  const realIndex = passports.length - 1 - index;
+  var passports = loadPassports();
+  var realIndex = passports.length - 1 - index;
   passports.splice(realIndex, 1);
   savePassports(passports);
   renderWall();
   chime(440, 0.2);
 };
 
-document.getElementById('pfSubmit').addEventListener('click', () => {
-  const name = document.getElementById('pfName').value.trim();
-  const message = document.getElementById('pfMessage').value.trim();
+document.getElementById('pfSubmit').addEventListener('click', function() {
+  var name = document.getElementById('pfName').value.trim();
+  var message = document.getElementById('pfMessage').value.trim();
   if (!name) { document.getElementById('pfName').focus(); return; }
   if (!message) { document.getElementById('pfMessage').focus(); return; }
 
-  const now = new Date();
-  const time = `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  var now = new Date();
+  var time = now.getFullYear() + '.' +
+    String(now.getMonth()+1).padStart(2,'0') + '.' +
+    String(now.getDate()).padStart(2,'0') + ' ' +
+    String(now.getHours()).padStart(2,'0') + ':' +
+    String(now.getMinutes()).padStart(2,'0');
 
-  const passports = loadPassports();
-  passports.push({ name, message, img: selectedVillager.img, time });
+  var passports = loadPassports();
+  passports.push({ name: name, message: message, img: selectedVillager.img, time: time });
   savePassports(passports);
   renderWall();
 
-  // Reset form
   document.getElementById('pfName').value = '';
   document.getElementById('pfMessage').value = '';
   selectedVillager = VILLAGERS[0];
   updateAvatarPreview(VILLAGERS[0]);
-  emojiGrid.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+  emojiGrid.querySelectorAll('button').forEach(function(b) { b.classList.remove('active'); });
   emojiGrid.querySelector('button').classList.add('active');
 
   chime(660, 0.2);
-  setTimeout(() => chime(880, 0.15), 150);
+  setTimeout(function() { chime(880, 0.15); }, 150);
 });
 
-// Init
-updateAvatarPreview(VILLAGERS[0]);
-renderWall();
-
-// === Animalese on passport form input ===
+// 护照输入时播放 Animalese
 ['pfName','pfMessage'].forEach(function(id) {
   var el = document.getElementById(id);
   if (!el) return;
@@ -331,10 +339,17 @@ renderWall();
   });
 });
 
-// ===== SITE DATA LOADER (shared admin/index) =====
+// 初始化
+updateAvatarPreview(VILLAGERS[0]);
+renderWall();
 
-// === Dynamic Gallery — reads from localStorage (fallback to data.json) ===
-var AYU_WORKS_KEY = 'ayu-works-admin';
+
+// ============================================================
+//  5. 创作画廊
+// ============================================================
+
+// --- IndexedDB 图片存储 (admin 后台用) ---
+
 var IMG_DB = null;
 
 function openImgDB(cb) {
@@ -359,13 +374,9 @@ function resolveImgSrc(src, callback) {
   });
 }
 
-function loadWorks() {
-  // Always load from data.json — no localStorage caching
-  // (caching caused stale/garbled data issues)
-  return null;
-}
+// --- 从 data.json 加载作品 ---
 
-function seedFromJSON(callback) {
+function loadGalleryFromJSON(callback) {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', 'data.json', true);
   xhr.onload = function() {
@@ -384,21 +395,33 @@ function seedFromJSON(callback) {
   xhr.send();
 }
 
+// --- 渲染画廊卡片 ---
+
+var PLACEHOLDER_CARD = '<div class="memo-card">' +
+  '<div class="memo-img memo-img-empty"><span>📸</span></div>' +
+  '<div class="memo-body">' +
+    '<h3>更多创作中…</h3>' +
+    '<p>新的插画和设计作品正在路上。</p>' +
+    '<div class="memo-footer">' +
+      '<span class="memo-date">…</span>' +
+      '<button class="memo-detail-btn" disabled>敬请期待</button>' +
+    '</div>' +
+  '</div>' +
+'</div>';
+
 function renderGallery(works) {
   var track = document.getElementById('galleryTrack');
   if (!track) return;
 
-  // Build works map for detail overlay
+  // 构建作品详情用的 map
   if (window._ayuBuildWorksMap) window._ayuBuildWorksMap(works);
 
-  var html = '';
-  var total = works.length;
-  if (!total) {
-    html = '<div class="memo-card"><div class="memo-img memo-img-empty"><span>📸</span></div><div class="memo-body"><h3>更多创作中…</h3><p>新的插画和设计作品正在路上。</p><div class="memo-footer"><span class="memo-date">…</span><button class="memo-detail-btn" disabled>敬请期待</button></div></div></div>';
-    track.innerHTML = html;
+  if (!works.length) {
+    track.innerHTML = PLACEHOLDER_CARD;
     return;
   }
 
+  var html = '';
   works.forEach(function(w, idx) {
     html += '<div class="memo-card" data-work-id="' + w.id + '">' +
       '<div class="memo-img" id="memoImg' + idx + '"><span>📸</span></div>' +
@@ -413,12 +436,12 @@ function renderGallery(works) {
     '</div>';
   });
 
-  // Always append placeholder
-  html += '<div class="memo-card"><div class="memo-img memo-img-empty"><span>📸</span></div><div class="memo-body"><h3>更多创作中…</h3><p>新的插画和设计作品正在路上。</p><div class="memo-footer"><span class="memo-date">…</span><button class="memo-detail-btn" disabled>敬请期待</button></div></div></div>';
+  // 末尾永远挂一个"更多创作中"占位
+  html += PLACEHOLDER_CARD;
 
   track.innerHTML = html;
 
-  // Resolve images asynchronously
+  // 异步加载封面图
   works.forEach(function(w, idx) {
     resolveImgSrc(w.imgMain, function(src) {
       if (src) {
@@ -429,19 +452,14 @@ function renderGallery(works) {
   });
 }
 
-// Init: load works and render gallery
+// --- 初始化画廊 ---
 (function initGallery() {
-  var data = loadWorks();
-  if (data) {
+  loadGalleryFromJSON(function(data) {
     renderGallery(data);
-  } else {
-    seedFromJSON(function(data) {
-      renderGallery(data);
-    });
-  }
+  });
 })();
 
-// === Gallery scroll arrows ===
+// --- 画廊左右箭头滚动 ---
 (function() {
   var track = document.getElementById('galleryTrack');
   var leftBtn = document.querySelector('.gallery-arrow-left');
@@ -450,7 +468,6 @@ function renderGallery(works) {
   var scrollAmount = 248;
   leftBtn.addEventListener('click', function() { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); });
   rightBtn.addEventListener('click', function() { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); });
-  // Keyboard arrows when gallery is in view
   document.addEventListener('keydown', function(e) {
     var rect = track.getBoundingClientRect();
     var inView = rect.top < window.innerHeight && rect.bottom > 0;
@@ -460,12 +477,15 @@ function renderGallery(works) {
   });
 })();
 
-// === Work Detail — Scrapbook Collage ===
+
+// ============================================================
+//  6. 作品详情弹窗
+// ============================================================
+
 (function() {
   var overlay = document.getElementById('workDetailOverlay');
   if (!overlay) return;
 
-  // Dynamic works map — populated by loadWorks() from localStorage
   window._ayuWorksMap = {};
 
   function buildMap(data) {
@@ -480,19 +500,15 @@ function renderGallery(works) {
     document.getElementById('spTags').innerHTML = (w.tags || []).map(function(t) {
       return '<span class="card-tag">' + t + '</span>';
     }).join('');
-    // Resolve hero image
     resolveImgSrc(w.imgMain, function(src) {
       document.getElementById('spHeroImg').src = src || '';
     });
     document.getElementById('spDesc').innerHTML = w.desc || '';
-    // Resolve extra images
     var extra = document.getElementById('spExtra');
     extra.innerHTML = '';
     (w.extra || []).forEach(function(src) {
       resolveImgSrc(src, function(resolved) {
-        if (resolved) {
-          extra.innerHTML += '<img src="' + resolved + '" alt="">';
-        }
+        if (resolved) extra.innerHTML += '<img src="' + resolved + '" alt="">';
       });
     });
     overlay.classList.add('open');
@@ -504,7 +520,6 @@ function renderGallery(works) {
     document.body.style.overflow = '';
   }
 
-  // Event delegation — any gallery card button triggers open via data-work-id
   document.getElementById('galleryTrack').addEventListener('click', function(e) {
     var btn = e.target.closest('.memo-detail-btn');
     if (!btn || btn.disabled) return;
@@ -521,7 +536,11 @@ function renderGallery(works) {
   window._ayuBuildWorksMap = buildMap;
 })();
 
-// === Like button ===
+
+// ============================================================
+//  7. 点赞按钮
+// ============================================================
+
 var likeCount = 0;
 var liked = false;
 function toggleLike() {
@@ -542,17 +561,20 @@ function toggleLike() {
   count.textContent = likeCount;
 }
 
-// === Loading splash ===
-(function() {
-  const splash = document.getElementById('loadingSplash');
-  const fill = document.getElementById('loadingFill');
-  if (!splash) return;
-  let dismissed = false;
 
-  // Start progress bar fill: 0% → 100% over ~2s
+// ============================================================
+//  8. 加载动画 (Splash)
+// ============================================================
+
+(function() {
+  var splash = document.getElementById('loadingSplash');
+  var fill = document.getElementById('loadingFill');
+  if (!splash) return;
+  var dismissed = false;
+
   function startProgress() {
-    let pct = 0;
-    const interval = setInterval(() => {
+    var pct = 0;
+    var interval = setInterval(function() {
       pct += 2;
       if (pct >= 100) { pct = 100; clearInterval(interval); }
       if (fill) fill.style.width = pct + '%';
@@ -565,18 +587,16 @@ function toggleLike() {
     dismissed = true;
     if (fill) fill.style.width = '100%';
     splash.classList.add('reveal');
-    // Pre-load animalese + start typewriter as mask reveals
     loadAnimalese();
-    // Start typewriter shortly after — animalese loads async via XHR
     setTimeout(function() { typewrite(greetingFull, greeting, 90); }, 300);
-    setTimeout(() => { if (splash.parentNode) splash.remove(); }, 700);
+    setTimeout(function() { if (splash.parentNode) splash.remove(); }, 700);
   }
 
   if (document.readyState === 'complete') {
     setTimeout(dismiss, 2000);
   } else {
-    window.addEventListener('load', () => setTimeout(dismiss, 2000));
+    window.addEventListener('load', function() { setTimeout(dismiss, 2000); });
   }
 
-  setTimeout(() => { if (!dismissed) dismiss(); }, 8000);
+  setTimeout(function() { if (!dismissed) dismiss(); }, 8000);
 })();
