@@ -4,7 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>阿鱼 · Ayu — Welcome to My Island</title>
+<meta name="description" content="阿鱼（Ayu）的个人作品集网站。插画师、IP设计师，专注非遗文化与现代创意融合。动森小岛治愈风格。">
+<meta name="keywords" content="阿鱼,Ayu,插画师,IP设计,非遗文化,动森,作品集,illustrator,designer">
+<meta name="author" content="阿鱼 Ayu">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://yuanxuru-oss.github.io/Ayu-websites-pages/ayu-site/">
+<meta property="og:title" content="阿鱼 Ayu | 插画师 · IP设计师">
+<meta property="og:description" content="用温暖笔触讲非遗故事。动森小岛风作品集。">
+<meta property="og:image" content="https://yuanxuru-oss.github.io/Ayu-websites-pages/ayu-site/ayu-penguin.png">
+<meta property="og:url" content="https://yuanxuru-oss.github.io/Ayu-websites-pages/ayu-site/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="阿鱼 Ayu | 插画师 · IP设计师">
+<meta name="twitter:description" content="用温暖笔触讲非遗故事。动森小岛风作品集。">
+<meta name="twitter:image" content="https://yuanxuru-oss.github.io/Ayu-websites-pages/ayu-site/ayu-penguin.png">
+<link rel="icon" type="image/png" sizes="32x32" href="ayu-penguin.png">
+<link rel="apple-touch-icon" href="ayu-penguin.png">
 <link rel="stylesheet" href="css/style.css?v=c491c97">
+<link rel="stylesheet" href="assets/css/site.css">
 </head>
 <body>
 
@@ -184,11 +201,15 @@
       <h2>🎨 创作画廊</h2>
     </div>
     <div class="gallery-board">
-      <button class="gallery-arrow gallery-arrow-left" aria-label="向左滚动" title="向左">◂</button>
-      <div class="gallery-track" id="galleryTrack">
+      <div class="gallery-filter-bar" aria-label="作品分类筛选">
+        <button class="gallery-filter-tag active" type="button" data-filter="all">全部</button>
+        <button class="gallery-filter-tag" type="button" data-filter="ip">IP 设计</button>
+        <button class="gallery-filter-tag" type="button" data-filter="illust">插画</button>
+        <button class="gallery-filter-tag" type="button" data-filter="heritage">非遗文化</button>
+      </div>
+      <div class="gallery-auto-grid" id="galleryTrack">
         <!-- Dynamically rendered by loadWorks() / renderGallery() -->
       </div>
-      <button class="gallery-arrow gallery-arrow-right" aria-label="向右滚动" title="向右">▸</button>
     </div>
   </section>
 
@@ -437,6 +458,139 @@
 
 <button class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回顶部">↑</button>
 
-<script src="js/main.js?v=65b626b"></script>
+<script src="js/main.js?v=c491c97"></script>
+<script>
+(function () {
+  "use strict";
+
+  var letters = "abcdefghijklmnopqrstuvwxyz";
+  var clips = {};
+  var currentTimer = null;
+  var lastPlayedAt = 0;
+
+  function getClip(letter) {
+    letter = String(letter || "").toLowerCase();
+    if (letters.indexOf(letter) === -1) return null;
+    if (!clips[letter]) {
+      var audio = new Audio("animalese/" + letter + ".aac");
+      audio.preload = "auto";
+      audio.volume = 0.45;
+      clips[letter] = audio;
+    }
+    return clips[letter];
+  }
+
+  function playLetter(letter) {
+    var now = Date.now();
+    if (now - lastPlayedAt < 28) return;
+    lastPlayedAt = now;
+
+    var source = getClip(letter);
+    if (!source) return;
+
+    try {
+      var clip = source.cloneNode();
+      clip.volume = source.volume;
+      clip.currentTime = 0;
+      var result = clip.play();
+      if (result && typeof result.catch === "function") result.catch(function () {});
+    } catch (err) {}
+  }
+
+  function normalizeToAnimaleseLetters(text) {
+    return String(text || "")
+      .toLowerCase()
+      .replace(/[^a-z]/g, "");
+  }
+
+  function playAnimaleseText(text, options) {
+    var chars = normalizeToAnimaleseLetters(text);
+    var maxChars = options && options.maxChars ? options.maxChars : 90;
+    chars = chars.slice(0, maxChars);
+
+    if (!chars) return;
+    if (currentTimer) clearInterval(currentTimer);
+
+    var index = 0;
+    currentTimer = setInterval(function () {
+      playLetter(chars[index]);
+      index += 1;
+      if (index >= chars.length) {
+        clearInterval(currentTimer);
+        currentTimer = null;
+      }
+    }, 54);
+  }
+
+  window.playAnimaleseLetter = playLetter;
+  window.playAnimaleseText = playAnimaleseText;
+
+  function isVisible(el) {
+    if (!el || !el.getBoundingClientRect) return false;
+    var rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+
+  var selectors = [
+    "#greeting",
+    ".greeting",
+    ".dodo-greeting",
+    ".dialogue",
+    ".dialogue-text",
+    ".speech",
+    ".speech-text",
+    ".typewriter",
+    "[data-animalese]"
+  ];
+
+  var previousText = new WeakMap();
+
+  function watchDialogueText() {
+    var nodes = [];
+    selectors.forEach(function (selector) {
+      document.querySelectorAll(selector).forEach(function (node) {
+        if (nodes.indexOf(node) === -1) nodes.push(node);
+      });
+    });
+
+    nodes.forEach(function (node) {
+      if (!isVisible(node)) return;
+      var text = (node.textContent || "").trim();
+      if (!text || previousText.get(node) === text) return;
+      previousText.set(node, text);
+      playAnimaleseText(text);
+    });
+  }
+
+  var observer = new MutationObserver(function () {
+    window.requestAnimationFrame(watchDialogueText);
+  });
+
+  function startAnimaleseBridge() {
+    observer.observe(document.body, {
+      childList: true,
+      characterData: true,
+      subtree: true
+    });
+
+    document.addEventListener("click", function (event) {
+      var trigger = event.target && event.target.closest
+        ? event.target.closest("[data-animalese-say], .dodo-btn, .dialogue-trigger, .hero-penguin")
+        : null;
+      if (!trigger) return;
+      var text = trigger.getAttribute("data-animalese-say") || trigger.textContent || "";
+      playAnimaleseText(text, { maxChars: 32 });
+    });
+
+    watchDialogueText();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", startAnimaleseBridge);
+  } else {
+    startAnimaleseBridge();
+  }
+})();
+</script>
 </body>
 </html>

@@ -375,7 +375,7 @@ function resolveImgSrc(src, callback) {
 }
 
 // --- 从 data.json 加载作品 ---
-// 内嵌数据作为兜底，避免网络请求失败时画廊为空
+// 内嵌数据作为 file:// 预览兜底，日常内容以 data.json 为准。
 
 var EMBEDDED_WORKS = [
   {
@@ -384,8 +384,15 @@ var EMBEDDED_WORKS = [
     "date": "2025.10",
     "imgMain": "works/image (14)_thumb.jpg",
     "tags": ["非遗", "IP"],
-    "summary": "",
-    "desc": "",
+    "summary": "以泉州刺桐文化为灵感，把城市记忆转译成一对可延展的双子星 IP。",
+    "desc": "刺桐双子星围绕泉州城市花与海丝文化展开，用成对角色承载传统与新生两种气质。",
+    "caseStudy": {
+      "oneLiner": "一组把泉州刺桐意象变成可亲近角色的城市文化 IP。",
+      "inspiration": "灵感来自刺桐花、泉州海丝记忆和城市地标感。",
+      "visualSystem": "角色以“双子”关系建立记忆点，一个偏温柔守护，一个偏明亮行动。",
+      "tools": "AI 辅助概念发散、角色方向探索、细节修订。",
+      "extension": "可延展为文旅导览角色、城市节庆主视觉、集章卡和贴纸包。"
+    },
     "extra": ["works/双子星1_extra.jpg", "works/双子星2_extra.jpg", "works/双子星3_extra.jpg"]
   },
   {
@@ -394,8 +401,15 @@ var EMBEDDED_WORKS = [
     "date": "2025.10",
     "imgMain": "works/silk-voyage-cover.png",
     "tags": ["插画", "非遗", "IP"],
-    "summary": "\"丝路远航\"是融合福建深厚海洋文化与现代创意的IP形象。",
-    "desc": "两位角色云澜与远帆分别代表传纺的沉思与当代的创新——云澜如古瓷般精致内敛，承载历史的厚重；远帆似扬帆般热烈开放，连释文化的生命力。",
+    "summary": "“丝路远航”是融合福建深厚海洋文化与现代创意的 IP 形象。",
+    "desc": "两位角色云澜与远帆分别代表传统的沉思与当代的创新。",
+    "caseStudy": {
+      "oneLiner": "一组用双角色讲述海丝文化传承与远航精神的视觉 IP。",
+      "inspiration": "从福建海洋文化、古代航线、瓷器纹样和船帆意象中提取灵感。",
+      "visualSystem": "云澜偏安静、内敛、古瓷质感；远帆偏热烈、行动、开放。",
+      "tools": "AI 进行角色草案探索和场景氛围生成，再统一世界观。",
+      "extension": "适合发展成展览导览角色、文创礼盒、城市宣传插画和教育类图文内容。"
+    },
     "extra": ["works/silk-voyage-1.jpg", "works/silk-voyage-2.jpg", "works/silk-voyage-3.jpg"]
   },
   {
@@ -404,8 +418,15 @@ var EMBEDDED_WORKS = [
     "date": "2025.11",
     "imgMain": "works/jinqi-yuanbao-cover.png",
     "tags": ["插画", "IP", "品牌"],
-    "summary": "以丙午马年与福建泉州非遗结合的马年IP。",
+    "summary": "以丙午马年与福建泉州非遗结合的马年 IP。",
     "desc": "以 2026 丙午马年为核心灵感，融合生肖马“马到成功”的文化寓意与祥云、金元素的吉祥内涵，结合现代萌系 IP 设计风格，实现传统生肖文化与当代审美融合，传递“骐骥奋进、祥云送福”的新年祝福。",
+    "caseStudy": {
+      "oneLiner": "一个面向新年传播和品牌周边的生肖马 IP。",
+      "inspiration": "围绕丙午马年、金元宝、祥云和泉州传统纹样展开。",
+      "visualSystem": "角色轮廓圆润，表情亲近，金色与红橙色建立节庆感。",
+      "tools": "AI 辅助生成生肖角色方向、服饰元素和节庆场景。",
+      "extension": "可延展为红包封面、节日海报、表情包、挂件、贴纸和品牌新年礼。"
+    },
     "extra": ["works/jinqi-yuanbao-1.jpg", "works/jinqi-yuanbao-2.jpg", "works/jinqi-yuanbao-3.jpg"]
   },
   {
@@ -416,12 +437,18 @@ var EMBEDDED_WORKS = [
     "tags": ["插画", "IP", "治愈"],
     "summary": "在星光熠熠的云端之上，毛茸茸的修补师与青鸟作伴，用温暖的金线温柔地缝合着破碎的月亮，也悄悄治愈着宇宙间每一个失落的梦。",
     "desc": "发光小怪物波波（BOBO）用温柔修补破碎世界的故事。戴着圆眼镜、穿着多口袋围裙的他，在星光璀璨的云端，将乌云的眼泪织成魔法，把流星的焦虑化为安宁。<br><br>作品致敬了“金缮”哲学，传递出“破碎和修补也是一种美”的核心理念。这不仅是一段治愈的童话之旅，更是一剂开给世界的温柔处方。配合治愈系贴纸与丰富的周边文创，波波陪伴着每一个需要拥抱的人，轻轻告诉大家：伤痕也是一枚蓝勋章，不完美的你依然可以闪闪发光。",
+    "caseStudy": {
+      "oneLiner": "一个关于修补、陪伴和自我接纳的治愈系角色故事。",
+      "inspiration": "灵感来自金缮哲学、夜空、月亮和人们对温柔陪伴的需要。",
+      "visualSystem": "BOBO 的圆眼镜、围裙口袋、金线和青鸟伙伴构成核心识别。",
+      "tools": "AI 参与角色草图、场景概念和氛围图生成，再通过故事设定统一叙事。",
+      "extension": "适合做绘本、治愈卡牌、贴纸、社交媒体连载和情绪陪伴 App 角色。"
+    },
     "extra": ["works/moon-mender-1.jpg", "works/moon-mender-2.jpg", "works/moon-mender-3.jpg"]
   }
 ];
 
 function loadGalleryFromJSON(callback) {
-  // 先尝试 fetch data.json，失败则用内嵌数据兜底
   fetch('data.json?v=c491c97')
     .then(function(res) {
       if (!res.ok) throw new Error('fetch failed');
@@ -437,25 +464,71 @@ function loadGalleryFromJSON(callback) {
     });
 }
 
+function escapeHTML(value) {
+  var d = document.createElement('div');
+  d.textContent = value == null ? '' : String(value);
+  return d.innerHTML;
+}
+
+function renderRichText(value) {
+  return escapeHTML(value).replace(/\n/g, '<br>');
+}
+
 // --- 渲染画廊卡片 ---
 
-var PLACEHOLDER_CARD = '<div class="memo-card">' +
-  '<div class="memo-img memo-img-empty"><span>📸</span></div>' +
+function getWorkCategories(work) {
+  var tags = (work.tags || []).map(function(tag) {
+    return String(tag).toLowerCase();
+  });
+  var text = (tags.join(' ') + ' ' + (work.title || '') + ' ' + (work.summary || '')).toLowerCase();
+  var cats = [];
+
+  function add(cat) {
+    if (cats.indexOf(cat) === -1) cats.push(cat);
+  }
+
+  if (tags.some(function(tag) { return tag === 'ip' || tag.indexOf('ip') !== -1 || tag.indexOf('品牌') !== -1; })) add('ip');
+  if (tags.some(function(tag) { return tag.indexOf('插画') !== -1 || tag.indexOf('治愈') !== -1; })) add('illust');
+  if (tags.some(function(tag) { return tag.indexOf('非遗') !== -1; }) || text.indexOf('海丝') !== -1 || text.indexOf('刺桐') !== -1) add('heritage');
+
+  if (!cats.length) add('illust');
+  return cats;
+}
+
+function tagClass(index) {
+  return ['tag-mint', 'tag-yellow', 'tag-orange'][index % 3];
+}
+
+function renderGalleryTags(tags) {
+  return (tags || []).map(function(tag, index) {
+    return '<span class="tag ' + tagClass(index) + '">' + escapeHTML(tag) + '</span>';
+  }).join('');
+}
+
+var PLACEHOLDER_CARD = '<div class="memo-card empty" data-cats="illust">' +
+  '<div class="memo-img memo-img-empty"><span>🖌️</span></div>' +
   '<div class="memo-body">' +
     '<h3>更多创作中…</h3>' +
+    '<div class="memo-tags"><span class="tag tag-mint">插画</span></div>' +
     '<p>新的插画和设计作品正在路上。</p>' +
     '<div class="memo-footer">' +
-      '<span class="memo-date">…</span>' +
+      '<span class="memo-date">coming soon</span>' +
       '<button class="memo-detail-btn" disabled>敬请期待</button>' +
     '</div>' +
   '</div>' +
 '</div>';
 
+function applyGalleryFilter(filter) {
+  document.querySelectorAll('#galleryTrack .memo-card[data-cats]').forEach(function(card) {
+    var cats = (card.dataset.cats || '').split(/\s+/);
+    card.style.display = filter === 'all' || cats.indexOf(filter) !== -1 ? '' : 'none';
+  });
+}
+
 function renderGallery(works) {
   var track = document.getElementById('galleryTrack');
   if (!track) return;
 
-  // 构建作品详情用的 map
   if (window._ayuBuildWorksMap) window._ayuBuildWorksMap(works);
 
   if (!works.length) {
@@ -465,38 +538,37 @@ function renderGallery(works) {
 
   var html = '';
   works.forEach(function(w, idx) {
-    html += '<div class="memo-card" data-work-id="' + w.id + '">' +
+    html += '<div class="memo-card" data-cats="' + escapeHTML(getWorkCategories(w).join(' ')) + '" data-work-id="' + escapeHTML(w.id) + '">' +
       '<div class="memo-img" id="memoImg' + idx + '"><span>📸</span></div>' +
       '<div class="memo-body">' +
-        '<h3>' + (w.title || '') + '</h3>' +
-        '<p>' + (w.summary || '') + '</p>' +
+        '<h3>' + escapeHTML(w.title || '') + '</h3>' +
+        '<div class="memo-tags">' + renderGalleryTags(w.tags || []) + '</div>' +
+        '<p>' + escapeHTML(w.summary || '') + '</p>' +
         '<div class="memo-footer">' +
-          '<span class="memo-date">' + (w.date || '') + '</span>' +
+          '<span class="memo-date">' + escapeHTML(w.date || '') + '</span>' +
           '<button class="memo-detail-btn">作品详情 ▸</button>' +
         '</div>' +
       '</div>' +
     '</div>';
   });
 
-  // 末尾永远挂一个"更多创作中"占位
   html += PLACEHOLDER_CARD;
-
   track.innerHTML = html;
 
-  // 异步加载封面图
   works.forEach(function(w, idx) {
     resolveImgSrc(w.imgMain, function(src) {
       if (src) {
         var el = document.getElementById('memoImg' + idx);
-        if (el) el.innerHTML = '<img src="' + src + '" alt="' + (w.title || '') + '">';
+        if (el) el.innerHTML = '<img src="' + escapeHTML(src) + '" alt="' + escapeHTML(w.title || '') + '">';
       }
     });
   });
+
+  var active = document.querySelector('.gallery-filter-tag.active');
+  applyGalleryFilter(active ? active.dataset.filter : 'all');
 }
 
-// --- 初始化画廊 ---
 (function initGallery() {
-  // 确保 DOM 就绪后再加载
   function boot() {
     loadGalleryFromJSON(function(data) {
       renderGallery(data);
@@ -509,25 +581,19 @@ function renderGallery(works) {
   }
 })();
 
-// --- 画廊左右箭头滚动 ---
-(function() {
-  var track = document.getElementById('galleryTrack');
-  var leftBtn = document.querySelector('.gallery-arrow-left');
-  var rightBtn = document.querySelector('.gallery-arrow-right');
-  if (!track || !leftBtn || !rightBtn) return;
-  var scrollAmount = 248;
-  leftBtn.addEventListener('click', function() { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); });
-  rightBtn.addEventListener('click', function() { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); });
-  document.addEventListener('keydown', function(e) {
-    var rect = track.getBoundingClientRect();
-    var inView = rect.top < window.innerHeight && rect.bottom > 0;
-    if (!inView) return;
-    if (e.key === 'ArrowLeft')  { e.preventDefault(); track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
-    if (e.key === 'ArrowRight') { e.preventDefault(); track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+function initGalleryFilters() {
+  document.querySelectorAll('.gallery-filter-tag').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.gallery-filter-tag').forEach(function(item) {
+        item.classList.remove('active');
+      });
+      btn.classList.add('active');
+      applyGalleryFilter(btn.dataset.filter || 'all');
+    });
   });
-})();
+}
 
-
+initGalleryFilters();
 // ============================================================
 //  6. 作品详情弹窗
 // ============================================================
@@ -548,17 +614,17 @@ function renderGallery(works) {
     document.getElementById('spTitle').textContent = w.title;
     document.getElementById('spDate').textContent = w.date;
     document.getElementById('spTags').innerHTML = (w.tags || []).map(function(t) {
-      return '<span class="card-tag">' + t + '</span>';
+      return '<span class="card-tag">' + escapeHTML(t) + '</span>';
     }).join('');
     resolveImgSrc(w.imgMain, function(src) {
       document.getElementById('spHeroImg').src = src || '';
     });
-    document.getElementById('spDesc').innerHTML = w.desc || '';
+    document.getElementById('spDesc').innerHTML = renderRichText(w.desc || w.summary || '');
     var extra = document.getElementById('spExtra');
     extra.innerHTML = '';
     (w.extra || []).forEach(function(src) {
       resolveImgSrc(src, function(resolved) {
-        if (resolved) extra.innerHTML += '<img src="' + resolved + '" alt="">';
+        if (resolved) extra.innerHTML += '<img src="' + escapeHTML(resolved) + '" alt="' + escapeHTML(w.title || '') + '">';
       });
     });
     overlay.classList.add('open');

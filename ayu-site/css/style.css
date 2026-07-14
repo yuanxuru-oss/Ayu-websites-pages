@@ -780,12 +780,10 @@ body {
   transform: translateY(-1px);
 }
 
-/* === Corkboard Memo Gallery === */
+/* === Filtered Memo Gallery — v2 preview style === */
 .gallery-board {
-  position: relative;
-  width: min(720px, 92vw);
+  width: min(940px, 92vw);
   margin: 0 auto;
-  /* No card background — only the gallery cards remain */
   background: transparent;
   border-radius: 0;
   padding: 0;
@@ -793,28 +791,51 @@ body {
   overflow: visible;
 }
 
-.gallery-track {
+.gallery-filter-bar {
   display: flex;
-  gap: 28px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  padding: 10px 12px 8px;
-  /* Hide scrollbar — keep functionality */
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 0 auto 28px;
 }
-.gallery-track::-webkit-scrollbar { display: none; }
 
-/* Memo Card — AC Nook Miles mission card style */
+.gallery-filter-tag {
+  min-height: 38px;
+  padding: 7px 18px;
+  border-radius: 50px;
+  border: 1.5px solid var(--border);
+  background: #fff;
+  color: var(--text-body);
+  cursor: pointer;
+  font-family: Nunito, 'Noto Sans SC', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  transition: all 0.2s;
+}
+
+.gallery-filter-tag.active {
+  color: #fff;
+  background: var(--accent-teal);
+  border-color: var(--accent-teal);
+}
+
+.gallery-filter-tag:hover:not(.active) {
+  color: var(--accent-teal);
+  border-color: var(--accent-teal);
+  transform: translateY(-1px);
+}
+
+.gallery-auto-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 22px;
+}
+
 .memo-card {
-  flex: 0 0 220px;
-  scroll-snap-align: start;
   background:
     radial-gradient(circle at 20% 30%, rgba(255,255,255,0.3) 0%, transparent 60%),
     linear-gradient(160deg, #fdf6f0 0%, #faf3e8 50%, #f5ecdd 100%);
   border-radius: 14px;
-  /* Thick white polaroid-style frame */
   box-shadow:
     0 0 0 6px #fff,
     0 0 0 8px rgba(180,165,140,0.15),
@@ -824,7 +845,6 @@ body {
   transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s;
   display: flex;
   flex-direction: column;
-  /* 3D perspective for tilt */
   transform-origin: center center;
 }
 .memo-card:hover {
@@ -835,8 +855,6 @@ body {
     0 6px 24px rgba(61,52,40,0.16);
   z-index: 5;
 }
-
-/* AC stamp-style decorative badge top-right */
 .memo-card::before {
   content: '✦';
   position: absolute;
@@ -848,10 +866,9 @@ body {
   pointer-events: none;
 }
 
-/* Memo image area */
 .memo-img {
   width: 100%;
-  height: 155px;
+  height: 150px;
   overflow: hidden;
   border-radius: 6px 6px 0 0;
   background: #e8f4d8;
@@ -871,20 +888,19 @@ body {
   background: linear-gradient(135deg, #e8f4d8 0%, #c8ddb5 100%);
 }
 
-/* Memo text body */
 .memo-body {
   padding: 14px 16px 14px;
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 7px;
 }
 .memo-body h3 {
-  font-family: 'ZCOOL KuaiLe', 'Noto Sans SC', cursive;
-  font-size: 0.95rem;
+  font-family: Nunito, 'Noto Sans SC', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 800;
   margin: 0;
-  letter-spacing: 0.5px;
-  color: var(--text-body);
+  color: var(--text-header);
 }
 .memo-body p {
   font-size: 0.78rem;
@@ -894,12 +910,31 @@ body {
   flex: 1;
   min-height: 2.4em;
 }
+.memo-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 2px 10px;
+  border-radius: 50px;
+  font-size: 0.63rem;
+  font-weight: 700;
+}
+.tag-mint { background: rgba(25,200,185,0.13); color: var(--accent-teal); }
+.tag-yellow { background: rgba(247,205,103,0.28); color: #8a6918; }
+.tag-orange { background: rgba(229,146,102,0.2); color: #c46e3d; }
+.memo-card.empty { opacity: 0.55; }
+.memo-card.empty .memo-img { background: #f0ede6; }
 
-/* Footer row: date left, button right */
 .memo-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 10px;
   margin-top: 4px;
 }
 .memo-date {
@@ -909,8 +944,6 @@ body {
   letter-spacing: 0.04em;
   white-space: nowrap;
 }
-
-/* Detail button — animal-island-ui outline pill */
 .memo-detail-btn {
   font-family: Nunito, 'Noto Sans SC', sans-serif;
   font-size: 0.72rem;
@@ -931,9 +964,7 @@ body {
   background: rgba(114, 93, 66, 0.06);
   transform: translateY(-1px);
 }
-.memo-detail-btn:active {
-  transform: translateY(0);
-}
+.memo-detail-btn:active { transform: translateY(0); }
 .memo-detail-btn:disabled {
   opacity: 0.35;
   cursor: default;
@@ -941,41 +972,12 @@ body {
   border-color: rgba(114, 93, 66, 0.15);
 }
 
-/* Gallery scroll arrows */
-.gallery-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 3;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(255,255,255,0.85);
-  color: rgba(114,93,66,0.7);
-  font-size: 1.2rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-  transition: all 0.2s;
-  opacity: 0;
-  pointer-events: none;
+@media (max-width: 640px) {
+  .gallery-board { width: 94vw; }
+  .gallery-auto-grid { grid-template-columns: 1fr; }
+  .memo-card:hover { transform: scale(1.03) rotate(-1deg); }
+  .memo-img { height: 130px; }
 }
-.gallery-board:hover .gallery-arrow {
-  opacity: 1;
-  pointer-events: auto;
-}
-.gallery-arrow:hover {
-  background: rgba(255,255,255,0.95);
-  color: rgba(114,93,66,0.95);
-  box-shadow: 0 3px 12px rgba(0,0,0,0.14);
-  transform: translateY(-50%) scale(1.08);
-}
-.gallery-arrow-left  { left: 4px; }
-.gallery-arrow-right { right: 4px; }
-
 /* === Work Detail — AC Dashboard Style === */
 .work-detail-overlay {
   position: fixed; inset: 0; z-index: 150;
@@ -1399,6 +1401,7 @@ body {
 .sp-desc p { margin: 0 0 12px; }
 .sp-desc p:last-child { margin-bottom: 0; }
 
+
 /* Keep work detail images at their original aspect ratio. */
 .sp-extra { margin-bottom: 24px; }
 .sp-extra img {
@@ -1628,3 +1631,15 @@ body {
   .passport-wall { grid-template-columns: 1fr; }
   .card-grid { grid-template-columns: 1fr; }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
