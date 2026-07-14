@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>页面飘走了 | 阿鱼的小岛</title>
+<meta name="robots" content="noindex, follow">
+<link rel="icon" type="image/png" sizes="32x32" href="ayu-penguin.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Noto+Sans+SC:wght@400;500;700&family=ZCOOL+KuaiLe&display=swap');
+
+* { box-sizing: border-box; }
+
+:root {
+  --bg-card: rgb(247, 243, 223);
+  --text-body: #725d42;
+  --text-header: #794f27;
+  --text-muted: #9f927d;
+  --border: #c4b89e;
+  --accent-teal: #19c8b9;
+  --focus-yellow: #ffcc00;
+}
+
+html { min-height: 100%; }
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  padding: 32px 18px;
+  font-family: Nunito, 'Noto Sans SC', -apple-system, 'PingFang SC', sans-serif;
+  color: var(--text-body);
+  background:
+    radial-gradient(ellipse 300px 150px at 20% 25%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    linear-gradient(180deg, #c5e8f0 0%, #e8f4d8 55%, #c8ddb5 75%, #a8d8ea 100%);
+}
+
+.not-found-card {
+  width: min(520px, 100%);
+  padding: 34px 28px 30px;
+  text-align: center;
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 24px;
+  box-shadow: 0 10px 26px rgba(61, 52, 40, 0.12);
+}
+
+.not-found-card img {
+  width: min(160px, 46vw);
+  filter: drop-shadow(3px 6px 16px rgba(61, 52, 40, 0.12));
+}
+
+h1 {
+  margin: 18px 0 8px;
+  font-family: 'ZCOOL KuaiLe', 'Noto Sans SC', cursive;
+  color: var(--text-header);
+  font-size: clamp(1.7rem, 7vw, 2.5rem);
+  letter-spacing: 1px;
+}
+
+p {
+  margin: 0 auto 22px;
+  max-width: 24em;
+  color: var(--text-muted);
+  font-size: 0.94rem;
+  line-height: 1.8;
+}
+
+a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 8px 22px;
+  border-radius: 50px;
+  background: var(--accent-teal);
+  color: #fff;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(25, 200, 185, 0.24);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--focus-yellow);
+  outline-offset: 3px;
+}
+</style>
+</head>
+<body>
+  <main class="not-found-card">
+    <img src="ayu-penguin.png" alt="阿鱼企鹅">
+    <h1>这个页面飘走了</h1>
+    <p>可能是小岛航线临时改道了。先回到阿鱼的小岛，继续逛逛作品和留言板吧。</p>
+    <a href="./index.html">返回首页</a>
+  </main>
+</body>
+</html>
