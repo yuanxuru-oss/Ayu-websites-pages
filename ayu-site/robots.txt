@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://yuanxuru-oss.github.io/Ayu-websites-pages/ayu-site/sitemap.xml
+Sitemap: https://ayuisle.site/ayu-site/sitemap.xml
