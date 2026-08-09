@@ -594,6 +594,35 @@ body {
 .island-card .island-label { font-size: 0.85rem; font-weight: 600; color: var(--dark-green); }
 .island-card .island-hint { font-size: 0.7rem; color: var(--muted); }
 
+/* Resume entry and download page */
+.resume-island-card .island-icon { background: #fff3b4; border: 2px solid #e2b51f; }
+.resume-island-card .island-label { color: #147d73; }
+.resume-section { --sec-accent: var(--accent-teal); position:fixed; inset:0; z-index:140; min-height:0; padding:82px 24px 46px; overflow-y:auto; background:rgba(197,232,240,.96); opacity:0; pointer-events:none; transform:translateY(10px); transition:opacity .25s, transform .25s; }
+.resume-section.open { opacity:1; pointer-events:auto; transform:translateY(0); }
+.resume-close { position:absolute; top:24px; right:28px; padding:8px 18px; border:2px solid rgba(114,93,66,.25); border-radius:999px; background:#fffdf5; color:var(--text-body); font-size:.78rem; font-weight:800; }
+.resume-close:hover { border-color:var(--accent-teal); color:#118d82; }
+.resume-board { max-width: 880px; margin: 0 auto; padding: 30px 34px 34px; border: 2px solid rgba(114,93,66,.2); border-radius: 20px; background: rgba(247,243,223,.92); box-shadow: var(--shadow); }
+.resume-board-header { display:flex; align-items:center; gap:18px; margin-bottom:22px; }
+.resume-board-title { display:flex; align-items:center; gap:12px; }
+.resume-board-title img { width:38px; height:38px; object-fit:contain; }
+.resume-board-title h3 { color: var(--text-header); font-size: 1.35rem; }
+.resume-board-title p { margin-top: 3px; color: var(--muted); font-size: .78rem; }
+.resume-download-grid { display:grid; grid-template-columns: 1fr 1fr; gap:16px; }
+.resume-download-card { display:flex; flex-direction:column; min-height:190px; padding:20px; border:2px solid var(--border); border-top:7px solid var(--np-yellow); border-radius:14px; background:#fffdf5; }
+.resume-download-card.product { border-top-color: var(--accent-teal); }
+.resume-download-card img { width:52px; height:46px; object-fit:contain; margin-bottom:12px; }
+.resume-download-card h4 { color:var(--text-header); font-size:1.05rem; }
+.resume-download-card p { min-height:42px; margin:7px 0 15px; color:var(--text-body); font-size:.76rem; line-height:1.6; }
+.resume-download-btn { display:flex; align-items:center; justify-content:center; gap:8px; width:100%; margin-top:auto; padding:10px 14px; border:0; border-radius:999px; color:#fff; background:#bb8c0d; text-decoration:none; font-size:.78rem; font-weight:800; transition:transform .18s, filter .18s; }
+.resume-download-card.product .resume-download-btn { background:#118d82; }
+.resume-download-btn:hover { filter:brightness(.95); transform:translateY(-1px); }
+.resume-download-btn span { font-size:1rem; line-height:0; }
+@media (max-width: 640px) {
+  .resume-board { padding: 23px 17px 20px; }
+  .resume-download-grid { grid-template-columns:1fr; }
+  .resume-download-card { min-height:164px; }
+}
+
 /* === Section Islands === */
 .section-island {
   min-height: 100vh;
@@ -610,6 +639,8 @@ body {
 .section-island[data-theme="competitions"] { --sec-accent: var(--accent-competitions); }
 .section-island[data-theme="works"]     { --sec-accent: var(--accent-works); }
 .section-island[data-theme="contact"]   { --sec-accent: var(--accent-contact); }
+.section-island.resume-section { position: fixed; inset: 0; z-index: 140; min-height: 0; padding: 82px 24px 46px; overflow-y: auto; align-items: center; background: rgba(197,232,240,.96); opacity: 0; pointer-events: none; transform: translateY(10px); }
+.section-island.resume-section.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
 
 /* === Section-themed subtle decorative marks (AC-style: small icons instead of big glows) === */
 /* About (green) — tiny grass/leaf dots */
@@ -1704,6 +1735,7 @@ body {
         <div class="dodo-options">
           <button class="dodo-btn dodo-btn-primary" data-target="hero"><span class="db-icon"><img src="icons/icon-map.svg" alt=""></span>岛屿广场</button>
           <button class="dodo-btn" data-target="about"><span class="db-icon"><img src="icons/icon-miles.svg" alt=""></span>护照信息</button>
+          <button class="dodo-btn" data-target="resume"><span class="db-icon"><img src="icons/icon-design.svg" alt=""></span>简历下载</button>
           <button class="dodo-btn" data-target="projects"><span class="db-icon"><img src="icons/icon-diy.svg" alt=""></span>项目工坊</button>
           <button class="dodo-btn" data-target="competitions"><span class="db-icon"><img src="icons/icon-variant.svg" alt=""></span>竞赛挑战</button>
           <button class="dodo-btn" data-target="works"><span class="db-icon"><img src="icons/icon-camera.svg" alt=""></span>创作画廊</button>
@@ -1731,6 +1763,11 @@ body {
         <span class="island-label">护照</span>
         <span class="island-hint">关于阿鱼</span>
       </a>
+      <a href="#resume" class="island-card resume-island-card" data-open-resume>
+        <span class="island-icon"><img src="icons/icon-design.svg" alt=""></span>
+        <span class="island-label">简历</span>
+        <span class="island-hint">下载简历</span>
+      </a>
       <a href="#projects" class="island-card">
         <span class="island-icon"><img src="icons/icon-diy.svg" alt=""></span>
         <span class="island-label">工坊</span>
@@ -1755,6 +1792,34 @@ body {
   </section>
 
   <div class="section-divider" style="color:#8ac68a"><svg width="297" height="14" viewBox="0 0 297 14"><path d="M20 10.42L33 11 28.002 0zM10 6.97L0 3l.858 9zM43 1l.613 11L53 5.585zm89 13l11-5.867L133.507 1zm67-3.58l13 .58-4.998-11zm-10-3.45L179 3l.858 9zM90.634 1L88 13l12-4.39zM155 13l12-2.4-8.47-9.6zM110 3l2.057 9L118 6.292zm-47 8.215L76 14 71.048 1zM222 1l.613 11L232 5.585zm47.634 0L267 13l12-4.39zM289 3l2.057 9L297 6.292zm-48 8.215L254 14l-4.952-13z" fill="currentColor" fill-rule="evenodd"/></svg></div>
+
+  <!-- Resume downloads -->
+  <section class="section-island resume-section" id="resume" data-theme="resume">
+    <button class="resume-close" id="resumeClose" type="button">× 关闭</button>
+    <div class="section-header">
+      <span class="section-stamp">RESUME DOWNLOAD</span>
+      <h2>📄 阿鱼的简历</h2>
+    </div>
+    <div class="resume-board">
+      <div class="resume-board-header">
+        <div class="resume-board-title"><img src="icons/icon-design.svg" alt=""><div><h3>选择你的简历方向</h3><p>点击按钮后会直接下载对应的 PDF。</p></div></div>
+      </div>
+      <div class="resume-download-grid">
+        <article class="resume-download-card">
+          <img src="icons/icon-design.svg" alt="">
+          <h4>设计方向简历</h4>
+          <p>面向视觉、IP、插画与品牌创意设计相关岗位。</p>
+          <a class="resume-download-btn" href="assets/resumes/design-resume.pdf" download><span>↓</span>下载 PDF</a>
+        </article>
+        <article class="resume-download-card product">
+          <img src="icons/icon-diy.svg" alt="">
+          <h4>产品方向简历</h4>
+          <p>面向 AI 产品、体验设计、项目策划与落地相关岗位。</p>
+          <a class="resume-download-btn" href="assets/resumes/product-resume.pdf" download><span>↓</span>下载 PDF</a>
+        </article>
+      </div>
+    </div>
+  </section>
 
   <!-- About / Passport -->
   <section class="section-island" id="about" data-theme="about">
@@ -2304,6 +2369,11 @@ document.querySelectorAll('.dodo-btn').forEach(btn => {
     const target = btn.dataset.target;
     overlay.classList.add('dismissed');
     chime(660, 0.18);
+    if (target === 'resume') {
+      document.getElementById('resume').classList.add('open');
+      document.body.style.overflow = 'hidden';
+      return;
+    }
     if (target) {
       const el = document.getElementById(target);
       if (el) {
@@ -2312,6 +2382,17 @@ document.querySelectorAll('.dodo-btn').forEach(btn => {
     }
   });
 });
+
+// Resume entry opens as a compact overlay so it never adds a long page section.
+const resumeOverlay = document.getElementById('resume');
+const closeResume = () => { resumeOverlay.classList.remove('open'); document.body.style.overflow = ''; };
+document.querySelectorAll('[data-open-resume]').forEach(link => link.addEventListener('click', (e) => {
+  e.preventDefault();
+  resumeOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}));
+document.getElementById('resumeClose').addEventListener('click', closeResume);
+resumeOverlay.addEventListener('click', (e) => { if (e.target === resumeOverlay) closeResume(); });
 
 // Also dismiss overlay when clicking background
 overlay.addEventListener('click', (e) => {
