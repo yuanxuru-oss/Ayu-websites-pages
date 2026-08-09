@@ -1737,7 +1737,7 @@ body {
           <button class="dodo-btn" data-target="about"><span class="db-icon"><img src="icons/icon-miles.svg" alt=""></span>护照信息</button>
           <button class="dodo-btn" data-target="resume"><span class="db-icon"><img src="icons/icon-design.svg" alt=""></span>简历下载</button>
           <button class="dodo-btn" data-target="projects"><span class="db-icon"><img src="icons/icon-diy.svg" alt=""></span>项目工坊</button>
-          <button class="dodo-btn" data-target="competitions"><span class="db-icon"><img src="icons/icon-variant.svg" alt=""></span>竞赛挑战</button>
+          <button class="dodo-btn" data-target="competitions"><span class="db-icon"><img src="icons/icon-variant.svg" alt=""></span>高光时刻</button>
           <button class="dodo-btn" data-target="works"><span class="db-icon"><img src="icons/icon-camera.svg" alt=""></span>创作画廊</button>
           <button class="dodo-btn" data-target="contact"><span class="db-icon"><img src="icons/icon-chat.svg" alt=""></span>留言信箱</button>
         </div>
@@ -1780,8 +1780,8 @@ body {
       </a>
       <a href="#competitions" class="island-card">
         <span class="island-icon"><img src="icons/icon-variant.svg" alt=""></span>
-        <span class="island-label">竞赛</span>
-        <span class="island-hint">挑战项目</span>
+        <span class="island-label">高光</span>
+        <span class="island-hint">荣誉记录</span>
       </a>
       <a href="#contact" class="island-card">
         <span class="island-icon"><img src="icons/icon-chat.svg" alt=""></span>
@@ -2027,11 +2027,11 @@ body {
 
   <div class="section-divider" style="color:#e59266"><svg width="297" height="14" viewBox="0 0 297 14"><path d="M20 10.42L33 11 28.002 0zM10 6.97L0 3l.858 9zM43 1l.613 11L53 5.585zm89 13l11-5.867L133.507 1zm67-3.58l13 .58-4.998-11zm-10-3.45L179 3l.858 9zM90.634 1L88 13l12-4.39zM155 13l12-2.4-8.47-9.6zM110 3l2.057 9L118 6.292zm-47 8.215L76 14 71.048 1zM222 1l.613 11L232 5.585zm47.634 0L267 13l12-4.39zM289 3l2.057 9L297 6.292zm-48 8.215L254 14l-4.952-13z" fill="currentColor" fill-rule="evenodd"/></svg></div>
 
-  <!-- Competitions -->
+  <!-- Island Highlights / Awards -->
   <section class="section-island" id="competitions" data-theme="competitions">
     <div class="section-header">
-      <span class="section-stamp">CHALLENGE</span>
-      <h2>🏆 竞赛挑战</h2>
+      <span class="section-stamp">HIGHLIGHTS</span>
+      <h2>✨ 小岛高光时刻</h2>
     </div>
     <div class="card-grid" id="competitionsGrid"></div>
   </section>
@@ -2097,7 +2097,7 @@ const greeting = document.getElementById('greeting');
 var greetings = [];
 
 // === Site Data Loader (shared with admin.html) ===
-var SITE_DATA_KEY = 'ayu-site-data';
+var SITE_DATA_KEY = 'ayu-site-data-v4';
 
 function loadSiteData() {
   var stored = localStorage.getItem(SITE_DATA_KEY);
@@ -2169,14 +2169,21 @@ function renderAll(siteData) {
   if (siteData.competitions) {
     var grid = document.getElementById('competitionsGrid');
     if (grid) {
-      grid.innerHTML = siteData.competitions.map(function(comp) {
+      var sortedCompetitions = siteData.competitions.slice().sort(function(a, b) {
+        function yearOf(item) {
+          var match = (item.tags || []).join(' ').match(/\b(20\d{2})\b/);
+          return match ? Number(match[1]) : 0;
+        }
+        return yearOf(b) - yearOf(a);
+      });
+      grid.innerHTML = sortedCompetitions.map(function(comp) {
         var tagsHtml = (comp.tags || []).map(function(t) { return '<span class="card-tag">' + t + '</span>'; }).join('');
-        var opacity = comp.status === '敬请期待' ? '0.5' : (comp.status === '✨' ? '0.4' : '0.7');
+        var descHtml = comp.desc ? '<p>' + comp.desc + '</p>' : '';
         return '<div class="item-card">' +
           '<div class="card-tags">' + tagsHtml + '</div>' +
           '<h3>' + (comp.title || '') + '</h3>' +
-          '<p>' + (comp.desc || '') + '</p>' +
-          '<span class="card-link" style="cursor:default;opacity:' + opacity + '">' + (comp.status || '') + '</span>' +
+          descHtml +
+          '<span class="card-link" style="cursor:default">' + (comp.status || '') + '</span>' +
         '</div>';
       }).join('');
     }

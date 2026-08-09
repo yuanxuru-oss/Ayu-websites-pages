@@ -533,7 +533,7 @@ body {
     <button class="tab-btn" data-tab="passport">护照</button>
     <button class="tab-btn" data-tab="workshop">工坊</button>
     <button class="tab-btn" data-tab="gallery">画廊</button>
-    <button class="tab-btn" data-tab="competitions">竞赛</button>
+    <button class="tab-btn" data-tab="competitions">小岛高光</button>
     <button class="tab-btn" data-tab="social">社交</button>
   </div>
 
@@ -671,29 +671,29 @@ body {
     <div id="workListContainer"></div>
   </div>
 
-  <!-- === TAB 5: 竞赛 === -->
+  <!-- === TAB 5: 小岛高光时刻 === -->
   <div class="tab-content" id="tab-competitions">
     <div class="add-section">
-      <button class="add-toggle" id="compAddToggle">＋ 添加竞赛</button>
+      <button class="add-toggle" id="compAddToggle">＋ 添加高光</button>
     </div>
     <div class="form-card" id="compAddForm" style="display:none">
-      <h2 id="compFormTitle">添加竞赛</h2>
+      <h2 id="compFormTitle">添加高光时刻</h2>
       <input type="hidden" id="compEditId">
       <div class="form-group">
-        <label>竞赛标题</label>
-        <input type="text" id="compTitle" placeholder="例如：🏅 AI 创新挑战赛" maxlength="40">
+        <label>奖项 / 高光标题</label>
+        <input type="text" id="compTitle" placeholder="例如：🏆 AI 创新应用大赛" maxlength="40">
       </div>
       <div class="form-group">
         <label>标签（逗号分隔）</label>
-        <input type="text" id="compTags" placeholder="竞赛, AI" maxlength="60">
+        <input type="text" id="compTags" placeholder="2025, 全国赛, AI 应用" maxlength="60">
       </div>
       <div class="form-group">
-        <label>描述</label>
-        <textarea id="compDesc" placeholder="简述竞赛内容" rows="2" maxlength="150"></textarea>
+        <label>经历描述</label>
+        <textarea id="compDesc" placeholder="参赛作品 + 你的主要贡献 + 获奖成果" rows="2" maxlength="150"></textarea>
       </div>
       <div class="form-group">
-        <label>状态</label>
-        <input type="text" id="compStatus" placeholder="进行中 / 敬请期待 / ✨" maxlength="20">
+        <label>获奖级别</label>
+        <input type="text" id="compStatus" placeholder="一等奖 / 优秀奖 / 全国入围" maxlength="20">
       </div>
       <div class="btn-row">
         <button class="btn" onclick="cancelCompForm()">取消</button>
@@ -749,7 +749,7 @@ body {
 
 <script>
 // ======= CONSTANTS =======
-var SITE_DATA_KEY = 'ayu-site-data';
+var SITE_DATA_KEY = 'ayu-site-data-v4';
 var WORKS_KEY = 'ayu-works-admin';
 
 // ======= UTILITIES =======
@@ -1333,9 +1333,16 @@ var compEditingId = null;
 function renderCompList(competitions) {
   var container = document.getElementById('compList');
   if (!competitions || !competitions.length) {
-    container.innerHTML = '<div class="empty-hint">还没有竞赛，点击上方按钮添加 🏆</div>';
+    container.innerHTML = '<div class="empty-hint">还没有高光记录，点击上方按钮添加 🏆</div>';
     return;
   }
+  competitions = competitions.slice().sort(function(a, b) {
+    function yearOf(item) {
+      var match = (item.tags || []).join(' ').match(/\b(20\d{2})\b/);
+      return match ? Number(match[1]) : 0;
+    }
+    return yearOf(b) - yearOf(a);
+  });
   container.innerHTML = competitions.map(function(comp, i) {
     var tagsStr = (comp.tags || []).join(' · ');
     return '<div class="list-item">' +
@@ -1364,7 +1371,7 @@ function setCompetitions(competitions) {
 
 document.getElementById('compAddToggle').addEventListener('click', function() {
   compEditingId = null;
-  document.getElementById('compFormTitle').textContent = '添加竞赛';
+  document.getElementById('compFormTitle').textContent = '添加高光时刻';
   document.getElementById('compEditId').value = '';
   document.getElementById('compTitle').value = '';
   document.getElementById('compTags').value = '';
@@ -1380,7 +1387,7 @@ function cancelCompForm() {
 
 function saveCompItem() {
   var title = document.getElementById('compTitle').value.trim();
-  if (!title) { showToast('请填写竞赛标题'); return; }
+  if (!title) { showToast('请填写奖项或高光标题'); return; }
 
   var item = {
     id: document.getElementById('compEditId').value || genId('comp'),
@@ -1402,7 +1409,7 @@ function saveCompItem() {
   setCompetitions(competitions);
   renderCompList(competitions);
   cancelCompForm();
-  showToast(editId ? '竞赛已更新' : '竞赛已添加');
+  showToast(editId ? '高光记录已更新' : '高光记录已添加');
 }
 
 function editCompItem(index) {
@@ -1410,7 +1417,7 @@ function editCompItem(index) {
   var item = competitions[index];
   if (!item) return;
   compEditingId = index;
-  document.getElementById('compFormTitle').textContent = '编辑竞赛';
+  document.getElementById('compFormTitle').textContent = '编辑高光时刻';
   document.getElementById('compEditId').value = item.id || '';
   document.getElementById('compTitle').value = item.title || '';
   document.getElementById('compTags').value = (item.tags || []).join(', ');
@@ -1421,12 +1428,12 @@ function editCompItem(index) {
 }
 
 function deleteCompItem(index) {
-  if (!confirm('确定删除这个竞赛吗？')) return;
+  if (!confirm('确定删除这条高光记录吗？')) return;
   var competitions = getCompetitions();
   competitions.splice(index, 1);
   setCompetitions(competitions);
   renderCompList(competitions);
-  showToast('竞赛已删除');
+  showToast('高光记录已删除');
 }
 
 // ======= TAB 6: SOCIAL =======
