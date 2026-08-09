@@ -1,0 +1,524 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --ayu-ink: #4f3828;
+  --ayu-muted: #7f705b;
+  --ayu-paper: #fff9e8;
+  --ayu-paper-2: #fffdf4;
+  --ayu-line: #d6c5a5;
+  --ayu-teal: #67c7b3;
+  --ayu-yellow: #ffd86b;
+  --ayu-pink: #f69ab6;
+  --ayu-green: #9bd884;
+  --ayu-shadow: 0 12px 0 rgba(92, 64, 41, 0.12), 0 18px 32px rgba(92, 64, 41, 0.14);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ayu-ink);
+  font-family: "Nunito", "Trebuchet MS", "Microsoft YaHei", "PingFang SC", sans-serif;
+  font-size: 18px;
+  line-height: 1.6;
+  background:
+    linear-gradient(rgba(255, 252, 235, 0.76), rgba(255, 252, 235, 0.9)),
+    url("../../bg-pattern.png"),
+    #f8f3df;
+  background-size: auto, 520px auto, auto;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  font: inherit;
+}
+
+.sky-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.9) 0 80px, transparent 82px),
+    radial-gradient(circle at 78% 8%, rgba(255, 255, 255, 0.7) 0 110px, transparent 112px),
+    linear-gradient(#bfeef5 0%, #f8f3df 68%);
+}
+
+.main-content,
+main,
+body > section,
+body > div:not(.loading-splash):not(.entry-overlay):not(.sky-bg):not(.work-detail-overlay) {
+  max-width: 1180px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.main-content,
+main {
+  padding: 24px clamp(16px, 4vw, 48px) 80px;
+}
+
+section,
+.section-island,
+.hero,
+.passport-card,
+.gallery-board,
+.contact-board,
+.item-card,
+.memo-card,
+.dodo-modal,
+.form-card {
+  border-radius: 24px;
+}
+
+.hero {
+  min-height: 92vh;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 18px;
+  text-align: center;
+  padding: clamp(28px, 6vw, 72px) 16px;
+}
+
+.hero-penguin,
+.entry-penguin,
+.passport-avatar {
+  display: inline-grid;
+  place-items: center;
+}
+
+.hero-penguin img,
+.entry-penguin img,
+.passport-avatar img {
+  width: min(300px, 68vw);
+  filter: drop-shadow(0 14px 0 rgba(92, 64, 41, 0.12));
+}
+
+.hero-hint,
+.section-stamp,
+.dodo-modal-title,
+.dodo-label,
+.memo-date,
+.card-tag {
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.hero-hint {
+  margin: 0;
+  color: var(--ayu-muted);
+}
+
+.hero-title,
+h1 {
+  margin: 0;
+  color: var(--ayu-ink);
+  font-size: clamp(2.4rem, 7vw, 5.8rem);
+  line-height: 1.05;
+  text-shadow: 0 5px 0 rgba(255, 255, 255, 0.75);
+}
+
+.hero-sub {
+  margin: 0;
+  color: var(--ayu-muted);
+  font-weight: 700;
+}
+
+.hero-islands,
+.dodo-options,
+.card-grid,
+#projectsGrid,
+#competitionsGrid,
+.social-links,
+#socialLinksContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+  width: min(100%, 960px);
+  margin: 18px auto 0;
+}
+
+.island-card,
+.dodo-btn,
+.item-card,
+.memo-card,
+.contact-link-card,
+.passport-card,
+.gallery-board,
+.section-island {
+  background: rgba(255, 253, 244, 0.92);
+  border: 3px solid var(--ayu-line);
+  box-shadow: var(--ayu-shadow);
+}
+
+.island-card,
+.dodo-btn,
+.contact-link-card {
+  min-height: 118px;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 6px;
+  padding: 14px;
+  color: var(--ayu-ink);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.island-card:hover,
+.dodo-btn:hover,
+.contact-link-card:hover,
+.item-card:hover,
+.memo-card:hover {
+  transform: translateY(-4px);
+}
+
+.island-icon img,
+.db-icon img {
+  width: 74px;
+  height: 74px;
+  object-fit: contain;
+}
+
+.island-label,
+.cl-label {
+  font-size: 1.05rem;
+  font-weight: 900;
+}
+
+.island-hint,
+.cl-hint {
+  color: var(--ayu-muted);
+  font-size: 0.88rem;
+}
+
+.entry-overlay,
+.loading-splash,
+.work-detail-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+}
+
+.entry-overlay {
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(133, 214, 222, 0.86);
+  backdrop-filter: blur(6px);
+}
+
+.entry-overlay.dismissed {
+  display: none;
+}
+
+.entry-scene {
+  width: min(940px, 100%);
+  display: grid;
+  grid-template-columns: minmax(180px, 280px) 1fr;
+  align-items: center;
+  gap: 24px;
+}
+
+.dodo-modal {
+  padding: clamp(18px, 4vw, 34px);
+  background: var(--ayu-paper-2);
+  border: 4px solid var(--ayu-ink);
+  box-shadow: 0 12px 0 rgba(79, 56, 40, 0.22);
+}
+
+.dodo-greeting,
+.dialogue,
+.speech-text,
+.typewriter {
+  min-height: 2.2em;
+  font-size: clamp(1.1rem, 2.4vw, 1.55rem);
+  font-weight: 800;
+}
+
+.section-island {
+  margin: 40px 0;
+  padding: clamp(22px, 4vw, 42px);
+}
+
+.section-header {
+  margin-bottom: 20px;
+}
+
+.section-header h2,
+h2 {
+  margin: 4px 0 0;
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
+  line-height: 1.1;
+}
+
+.section-stamp {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 4px 14px;
+  border-radius: 999px;
+  background: var(--ayu-yellow);
+  border: 2px solid rgba(79, 56, 40, 0.2);
+  color: var(--ayu-ink);
+  font-size: 0.78rem;
+}
+
+.passport-card {
+  padding: clamp(18px, 4vw, 32px);
+}
+
+.passport-header,
+.passport-body,
+.passport-fields,
+.passport-field {
+  display: grid;
+  gap: 14px;
+}
+
+.passport-body {
+  grid-template-columns: minmax(140px, 240px) 1fr;
+  align-items: center;
+}
+
+.passport-fields {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.passport-field {
+  padding: 14px;
+  border-radius: 16px;
+  background: rgba(255, 245, 202, 0.7);
+}
+
+.field-label {
+  color: var(--ayu-muted);
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+
+.field-value {
+  font-weight: 900;
+}
+
+.item-card {
+  min-height: 220px;
+  padding: 20px;
+}
+
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.card-tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: #d9f3e7;
+  color: #276857;
+  font-size: 0.78rem;
+}
+
+.item-card h3 {
+  margin: 16px 0 8px;
+  font-size: 1.25rem;
+}
+
+.card-link,
+.memo-detail-btn,
+.sp-back-bottom,
+.sp-nav-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 2px solid rgba(79, 56, 40, 0.22);
+  background: var(--ayu-pink);
+  color: #fff;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.gallery-board {
+  position: relative;
+  padding: 18px;
+  overflow: hidden;
+}
+
+.gallery-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(250px, 320px);
+  gap: 16px;
+  overflow-x: auto;
+  padding: 10px 4px 22px;
+  scroll-snap-type: x mandatory;
+}
+
+.memo-card {
+  overflow: hidden;
+  scroll-snap-align: start;
+}
+
+.memo-img {
+  aspect-ratio: 4 / 3;
+  display: grid;
+  place-items: center;
+  background: #d9f3e7;
+}
+
+.memo-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.memo-body {
+  padding: 16px;
+}
+
+.memo-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}
+
+.gallery-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid var(--ayu-line);
+  background: var(--ayu-paper);
+  color: var(--ayu-ink);
+  font-weight: 900;
+}
+
+.gallery-arrow-left {
+  left: 8px;
+}
+
+.gallery-arrow-right {
+  right: 8px;
+}
+
+.loading-splash {
+  display: grid;
+  place-items: center;
+  background: #f8f3df;
+}
+
+.loading-splash.reveal {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 420ms ease;
+}
+
+.section-divider {
+  display: grid;
+  place-items: center;
+  margin: 18px 0;
+}
+
+.work-detail-overlay {
+  display: none;
+  overflow: auto;
+  background: rgba(248, 243, 223, 0.96);
+}
+
+.work-detail-overlay.active,
+.work-detail-overlay.show,
+.work-detail-overlay[aria-hidden="false"] {
+  display: block;
+}
+
+.sp-page,
+.sp-container {
+  width: min(1080px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.sp-card,
+.sp-widget {
+  border-radius: 24px;
+  border: 3px solid var(--ayu-line);
+  background: var(--ayu-paper-2);
+  box-shadow: var(--ayu-shadow);
+  overflow: hidden;
+}
+
+.sp-hero-img {
+  width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  background: #fff;
+}
+
+@media (max-width: 760px) {
+  body {
+    font-size: 16px;
+  }
+
+  .entry-scene,
+  .passport-body {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .hero-islands,
+  .dodo-options,
+  .card-grid,
+  #projectsGrid,
+  #competitionsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .island-card,
+  .dodo-btn {
+    min-height: 104px;
+  }
+
+  .island-icon img,
+  .db-icon img {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+@media (max-width: 460px) {
+  .hero-islands,
+  .dodo-options,
+  .card-grid,
+  #projectsGrid,
+  #competitionsGrid {
+    grid-template-columns: 1fr;
+  }
+}
