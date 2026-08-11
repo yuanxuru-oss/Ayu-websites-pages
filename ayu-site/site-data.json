@@ -45,24 +45,59 @@
   "competitions": [
     {
       "id": "comp-1",
-      "title": "🏅 AI 创新挑战赛",
-      "tags": ["竞赛", "AI"],
-      "desc": "参与 AI 应用开发竞赛，用创意和技术解决实际问题。",
-      "status": "进行中 →"
+      "title": "🏆《金骐云宝——2026丙午马年IP设计》",
+      "tags": ["2026", "米兰设计周", "IP设计"],
+      "desc": "",
+      "status": "国家一等奖"
     },
     {
       "id": "comp-2",
-      "title": "🎯 创意设计马拉松",
-      "tags": ["竞赛", "设计"],
-      "desc": "48小时极限创作挑战，从概念到原型一气呵成。",
-      "status": "敬请期待"
+      "title": "《韧性方舟——内罗毕洪涝适应型模块化社区设计》",
+      "tags": ["2026", "米兰设计周", "空间设计"],
+      "desc": "",
+      "status": "国家二等奖"
     },
     {
       "id": "comp-3",
-      "title": "更多挑战筹备中…",
-      "tags": ["Coming Soon"],
-      "desc": "新的竞赛项目正在规划，保持关注。",
-      "status": "✨"
+      "title": "《雪域团子（Snowy Pompom）——冰雪运动IP设计》",
+      "tags": ["2026", "米兰设计周", "AIGC创作"],
+      "desc": "",
+      "status": "全国决赛三等奖"
+    },
+    {
+      "id": "comp-4",
+      "title": "泉州数字经济产业园高校设计大赛",
+      "tags": ["2025", "泉州", "设计大赛"],
+      "desc": "",
+      "status": "一等奖"
+    },
+    {
+      "id": "comp-5",
+      "title": "国家奖学金",
+      "tags": ["2024", "荣誉", "奖学金"],
+      "desc": "",
+      "status": "国家奖学金"
+    },
+    {
+      "id": "comp-6",
+      "title": "《凤翎千色：她力量的九种回响》",
+      "tags": ["2026", "NCDA", "未来设计师"],
+      "desc": "未来设计师·全国高校数字艺术设计大赛（NCDA）",
+      "status": "省一等奖"
+    },
+    {
+      "id": "comp-7",
+      "title": "《刺桐红韵——小桐花城市IP设计》",
+      "tags": ["2026", "NCDA", "未来设计师"],
+      "desc": "未来设计师·全国高校数字艺术设计大赛（NCDA）",
+      "status": "省二等奖"
+    },
+    {
+      "id": "comp-8",
+      "title": "《“Rb”元素企鹅个人IP设计》",
+      "tags": ["2026", "NCDA", "未来设计师"],
+      "desc": "未来设计师·全国高校数字艺术设计大赛（NCDA）",
+      "status": "省三等奖"
     }
   ],
   "socialLinks": [
@@ -71,6 +106,18 @@
       "url": "mailto:924386950@qq.com",
       "icon": "✉️",
       "hint": "924386950@qq.com"
+    },
+    {
+      "platform": "GitHub",
+      "url": "https://github.com/yuanxuru-oss",
+      "icon": "🐙",
+      "hint": "yuanxuru-oss"
+    },
+    {
+      "platform": "小红书",
+      "url": "https://www.xiaohongshu.com/user/profile/6267928c000000002102667b",
+      "icon": "📕",
+      "hint": "阿鱼 Ayu"
     }
   ]
 }
