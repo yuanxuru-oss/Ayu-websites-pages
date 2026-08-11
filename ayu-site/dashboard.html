@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#c5e8f0">
+  <title>Ayu - Personal Dashboard</title>
+  <link rel="icon" type="image/png" href="ayu-penguin.png">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <main class="dashboard-shell">
+    <header class="topbar">
+      <a class="brand" href="index.html" aria-label="返回阿鱼主页">ayu<span>.</span></a>
+      <nav aria-label="仪表盘分区">
+        <button class="nav-link is-active" data-view="today">今日</button>
+        <button class="nav-link" data-view="projects">项目</button>
+        <button class="nav-link" data-view="inspiration">灵感</button>
+        <button class="nav-link" data-view="notes">记录</button>
+      </nav>
+      <time id="today-date" datetime="2026-08-11">2026.08.11</time>
+    </header>
+
+    <section class="hero" id="today">
+      <div class="hero-copy">
+        <p class="eyeline">PERSONAL DASHBOARD</p>
+        <h1>给好工作，<br>留一点空间。</h1>
+        <p class="intro">把正在推进的事、突然闪现的灵感，和今天想记住的小事，放在同一个温柔的地方。</p>
+        <div class="focus-note">
+          <label for="focus-input">TODAY'S FOCUS</label>
+          <div class="focus-edit">
+            <input id="focus-input" value="让作品集首页更接近心里想要的样子" aria-label="今日专注事项">
+            <button id="save-focus" class="icon-button" title="保存今日专注" aria-label="保存今日专注">&#10003;</button>
+          </div>
+          <span id="save-status" role="status"></span>
+        </div>
+      </div>
+      <aside class="day-panel" aria-label="今天的日程">
+        <div class="panel-top"><span>MONDAY</span><span class="weather">20&deg; / 晴</span></div>
+        <h2>今天，慢慢来。</h2>
+        <ol class="timeline">
+          <li><time>09:30</time><span>整理作品集文案</span></li>
+          <li><time>13:00</time><span>项目视觉复盘</span></li>
+          <li><time>16:30</time><span>散步，记录一点灵感</span></li>
+        </ol>
+        <div class="mood"><span>今日心情</span><b>平静又有点期待</b></div>
+      </aside>
+    </section>
+
+    <section class="content-grid">
+      <section class="section projects" id="projects" aria-labelledby="projects-title">
+        <div class="section-heading"><div><p>IN PROGRESS</p><h2 id="projects-title">正在发生的事</h2></div><span class="section-count" id="task-count">0 / 4</span></div>
+        <ul class="task-list">
+          <li><label><input type="checkbox" data-task="portfolio"><span class="checkmark"></span><span>作品集首页 - 完成首屏叙事</span></label><em>设计</em></li>
+          <li><label><input type="checkbox" data-task="silk"><span class="checkmark"></span><span>丝路项目 - 整理过程稿</span></label><em>创作</em></li>
+          <li><label><input type="checkbox" data-task="writing"><span class="checkmark"></span><span>写一篇关于个人 IP 的笔记</span></label><em>写作</em></li>
+          <li><label><input type="checkbox" data-task="archive"><span class="checkmark"></span><span>归档八月收集的参考图</span></label><em>整理</em></li>
+        </ul>
+        <a href="#notes" class="text-link">写下一个新想法 <span>&rarr;</span></a>
+      </section>
+
+      <section class="section inspiration" id="inspiration" aria-labelledby="inspiration-title">
+        <div class="section-heading"><div><p>COLLECTED RECENTLY</p><h2 id="inspiration-title">灵感正在靠岸</h2></div><button class="icon-button subtle" id="shuffle-inspiration" title="换一组灵感" aria-label="换一组灵感">&#8635;</button></div>
+        <div class="inspiration-grid" id="inspiration-grid">
+          <article class="inspiration-card tall"><img src="works/sea-spirit.png" alt="海洋主题插画作品"><span>海的呼吸</span></article>
+          <article class="inspiration-card"><img src="works/twin-stars.png" alt="双子星插画作品"><span>微小的光</span></article>
+          <article class="inspiration-card"><img src="works/solar-terms.png" alt="节气主题插画作品"><span>慢慢生长</span></article>
+        </div>
+      </section>
+    </section>
+
+    <section class="journal section" id="notes" aria-labelledby="journal-title">
+      <div class="journal-mark" aria-hidden="true">~</div>
+      <div><p>ONE SMALL THING</p><h2 id="journal-title">今天有什么值得记住？</h2><p class="journal-copy">也许是一个好想法、一段对话，或一阵刚好吹过来的风。</p></div>
+      <button class="journal-button" id="journal-button">写一笔 <span>&rarr;</span></button>
+      <p class="journal-status" id="journal-status" role="status"></p>
+    </section>
+  </main>
+  <script src="dashboard.js"></script>
+</body>
+</html>
