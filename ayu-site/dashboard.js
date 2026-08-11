@@ -1,50 +1,32 @@
-const storageKey = 'ayu-dashboard-v1';
-const initialState = { focus: '让作品集首页更接近心里想要的样子', tasks: {} };
-let state = { ...initialState };
+const KEY='ayu-dashboard-v2';
+const seed={focus:'让作品集首页更接近心里想要的样子',todos:[],bookmarks:[{name:'Esther 的 Personal Dashboard',url:'https://hiesther.me/tutorials/personal-dashboard/',desc:'一个把生活与工作的不同面向放在一起的灵感参考。'}],dreams:['去一个有海的地方住一阵子','做一套属于自己的贴纸','把阿鱼的小岛做成一本书'],moods:{},archive:[]};
+let state={...seed};try{state={...seed,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch(_){/* fresh state */}
+const save=()=>localStorage.setItem(KEY,JSON.stringify(state));
+const $=s=>document.querySelector(s);const $$=s=>[...document.querySelectorAll(s)];
 
-try { state = { ...initialState, ...JSON.parse(localStorage.getItem(storageKey) || '{}') }; } catch (_) {}
+// Tabs behave like a small component system: one active trigger, one visible panel.
+$$('.tab-btn').forEach(btn=>btn.addEventListener('click',()=>{$$('.tab-btn').forEach(b=>b.classList.toggle('is-active',b===btn));$$('.tab-panel').forEach(p=>p.classList.toggle('is-active',p.id===`tab-${btn.dataset.tab}`));}));
 
-const persist = () => localStorage.setItem(storageKey, JSON.stringify(state));
-const focusInput = document.querySelector('#focus-input');
-const saveStatus = document.querySelector('#save-status');
-const taskCount = document.querySelector('#task-count');
+$('#focus-input').value=state.focus;$('#save-focus').addEventListener('click',()=>{state.focus=$('#focus-input').value.trim()||seed.focus;save();$('#save-status').textContent='已保存到这个浏览器';setTimeout(()=>$('#save-status').textContent='',1600)});
 
-focusInput.value = state.focus;
-document.querySelector('#save-focus').addEventListener('click', () => {
-  state.focus = focusInput.value.trim() || initialState.focus;
-  focusInput.value = state.focus;
-  persist();
-  saveStatus.textContent = '已保存到这个浏览器';
-  setTimeout(() => saveStatus.textContent = '', 1800);
-});
+let todoFilter='today';
+const todoSeed=[{text:'整理作品集首页首屏叙事',day:'today',done:false},{text:'回复项目合作邮件',day:'today',done:false},{text:'把参考图归档到灵感库',day:'tomorrow',done:false}];
+if(!state.todos.length)state.todos=todoSeed;
+function renderTodos(){const list=$('#todo-list');const items=state.todos.filter(t=>t.day===todoFilter);list.innerHTML=items.length?items.map((t,i)=>`<li><label><input type="checkbox" data-todo="${state.todos.indexOf(t)}" ${t.done?'checked':''}><span class="check"></span><span>${escapeHtml(t.text)}</span></label><button class="delete-item" data-delete="${state.todos.indexOf(t)}" aria-label="删除">×</button></li>`).join(''):'<li class="empty-state">这一天还没有安排，留一点空白也很好。</li>';const done=items.filter(t=>t.done).length;$('#todo-stat').textContent=`${done} / ${items.length}`;$$('[data-todo]').forEach(input=>input.addEventListener('change',()=>{state.todos[+input.dataset.todo].done=input.checked;state.archive.unshift({type:'待办',text:state.todos[+input.dataset.todo].text,date:dateKey()});save();renderTodos()}));$$('[data-delete]').forEach(btn=>btn.addEventListener('click',()=>{state.todos.splice(+btn.dataset.delete,1);save();renderTodos()}))}
+$$('.todo-filter').forEach(btn=>btn.addEventListener('click',()=>{$$('.todo-filter').forEach(b=>b.classList.toggle('is-active',b===btn));todoFilter=btn.dataset.filter;renderTodos()}));$('#todo-form').addEventListener('submit',e=>{e.preventDefault();const input=$('#todo-input');if(!input.value.trim())return;state.todos.push({text:input.value.trim(),day:todoFilter,done:false});state.archive.unshift({type:'待办',text:input.value.trim(),date:dateKey()});input.value='';save();renderTodos()});renderTodos();
 
-function updateTasks() {
-  const tasks = [...document.querySelectorAll('[data-task]')];
-  const completed = tasks.filter(task => task.checked).length;
-  taskCount.textContent = `${completed} / ${tasks.length}`;
-}
+let calendarDate=new Date(2026,7,1);let selectedMood='';function dateKey(){return new Date().toISOString().slice(0,10)}
+function renderCalendar(){const y=calendarDate.getFullYear(),m=calendarDate.getMonth();$('#calendar-title').textContent=`${y} 年 ${m+1} 月`;const grid=$('#calendar-grid');const days=['日','一','二','三','四','五','六'];grid.innerHTML=days.map(d=>`<span class="weekday">${d}</span>`).join('');const start=new Date(y,m,1).getDay(),total=new Date(y,m+1,0).getDate();for(let i=0;i<start;i++)grid.innerHTML+='<button class="day empty" tabindex="-1"></button>';for(let d=1;d<=total;d++){const key=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`,mood=state.moods[key]||'';grid.innerHTML+=`<button class="day ${key===dateKey()?'today':''}" data-date="${key}"><span class="number">${d}</span><span class="emoji">${mood}</span></button>`}$$('[data-date]').forEach(day=>day.addEventListener('click',()=>{selectedMood='';$('#mood-modal').hidden=false;$('#mood-modal').dataset.date=day.dataset.date;$$('.mood-options button').forEach(b=>b.classList.remove('is-selected'))}));}
+$('#prev-month').addEventListener('click',()=>{calendarDate.setMonth(calendarDate.getMonth()-1);renderCalendar()});$('#next-month').addEventListener('click',()=>{calendarDate.setMonth(calendarDate.getMonth()+1);renderCalendar()});$$('.mood-options button').forEach(btn=>btn.addEventListener('click',()=>{$$('.mood-options button').forEach(b=>b.classList.toggle('is-selected',b===btn));selectedMood=btn.dataset.mood}));$('#close-mood').addEventListener('click',()=>$('#mood-modal').hidden=true);$('#save-mood').addEventListener('click',()=>{if(!selectedMood)return;const key=$('#mood-modal').dataset.date;state.moods[key]=selectedMood;state.archive.unshift({type:'心情',text:`记录为 ${selectedMood}`,date:key});save();$('#mood-modal').hidden=true;renderCalendar()});renderCalendar();
 
-document.querySelectorAll('[data-task]').forEach(task => {
-  task.checked = Boolean(state.tasks[task.dataset.task]);
-  task.addEventListener('change', () => {
-    state.tasks[task.dataset.task] = task.checked;
-    persist();
-    updateTasks();
-  });
-});
-updateTasks();
+let inputType='todo';$$('.type-pill').forEach(btn=>btn.addEventListener('click',()=>{$$('.type-pill').forEach(b=>b.classList.toggle('is-active',b===btn));inputType=btn.dataset.type}));$('#smart-form').addEventListener('submit',e=>{e.preventDefault();const input=$('#smart-input'),text=input.value.trim();if(!text)return;if(inputType==='todo')state.todos.push({text,day:'today',done:false});if(inputType==='bookmark')state.bookmarks.unshift({name:text,url:'#',desc:'从智能输入添加'});if(inputType==='dream')state.dreams.unshift(text);state.archive.unshift({type:{todo:'待办',idea:'灵感',bookmark:'收藏',dream:'Dream'}[inputType],text,date:dateKey()});save();input.value='';$('#smart-toast').textContent=`已放入${inputType==='todo'?'今天待办':inputType==='bookmark'?'收藏':inputType==='dream'?'Dream List':'灵感'} ↓`;setTimeout(()=>$('#smart-toast').textContent='',2200);renderTodos();renderBookmarks();renderDreams();renderArchive()});
 
-document.querySelectorAll('.nav-link').forEach(button => button.addEventListener('click', () => {
-  document.querySelectorAll('.nav-link').forEach(item => item.classList.toggle('is-active', item === button));
-  document.getElementById(button.dataset.view)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}));
+$('#bookmark-form').addEventListener('submit',e=>{e.preventDefault();const name=$('#bookmark-name').value.trim();if(!name)return;state.bookmarks.unshift({name,url:$('#bookmark-url').value.trim()||'#',desc:$('#bookmark-desc').value.trim()||'未写描述'});state.archive.unshift({type:'收藏',text:name,date:dateKey()});e.target.reset();save();renderBookmarks();renderArchive()});$('#new-bookmark').addEventListener('click',()=>$('#bookmark-name').focus());$('#bookmark-search').addEventListener('input',renderBookmarks);
+function renderBookmarks(){const q=$('#bookmark-search').value.toLowerCase(),items=state.bookmarks.filter(b=>`${b.name}${b.desc}`.toLowerCase().includes(q));$('#bookmark-count').textContent=`${items.length} 条`;$('#bookmark-grid').innerHTML=items.map((b,i)=>`<article class="bookmark-card"><button data-bookmark-delete="${state.bookmarks.indexOf(b)}" aria-label="删除">×</button><a href="${b.url}" target="_blank" rel="noreferrer">${escapeHtml(b.name)}</a><p>${escapeHtml(b.desc)}</p><small>打开链接 ↗</small></article>`).join('')||'<p class="empty-state">还没有收藏，先留一条给未来的自己。</p>';$$('[data-bookmark-delete]').forEach(btn=>btn.addEventListener('click',()=>{state.bookmarks.splice(+btn.dataset.bookmarkDelete,1);save();renderBookmarks()}))}renderBookmarks();
 
-document.querySelector('#journal-button').addEventListener('click', () => {
-  const status = document.querySelector('#journal-status');
-  status.textContent = '今天的空白页已经打开。';
-  setTimeout(() => status.textContent = '', 2400);
-});
+$('#dream-form').addEventListener('submit',e=>{e.preventDefault();const input=$('#dream-input');if(!input.value.trim())return;state.dreams.unshift(input.value.trim());state.archive.unshift({type:'Dream',text:input.value.trim(),date:dateKey()});input.value='';save();renderDreams();renderArchive()});function renderDreams(){$('#dream-list').innerHTML=state.dreams.map((d,i)=>`<li>${escapeHtml(d)}<button data-dream-delete="${i}" aria-label="删除">×</button></li>`).join('')||'<li class="empty-state">写下一件想做的事。</li>';$$('[data-dream-delete]').forEach(btn=>btn.addEventListener('click',()=>{state.dreams.splice(+btn.dataset.dreamDelete,1);save();renderDreams()}))}renderDreams();
 
-document.querySelector('#shuffle-inspiration').addEventListener('click', () => {
-  document.querySelector('#inspiration-grid').classList.toggle('is-shuffled');
-});
+let archiveDate='all';$('#archive-filter').addEventListener('change',renderArchive);function renderArchive(){const filter=$('#archive-filter').value,groups={};state.archive.filter(x=>filter==='all'||x.type===filter).forEach(x=>(groups[x.date]??=[]).push(x));const dates=Object.keys(groups);$('#archive-date-list').innerHTML=dates.length?dates.map(d=>`<button class="archive-date ${d===archiveDate?'is-active':''}" data-archive-date="${d}">${d}<small>${groups[d].length} 条记录</small></button>`).join(''):'<p class="empty-state">还没有归档记录。</p>';if(archiveDate==='all'&&!dates.length){$('#archive-content').innerHTML='<p class="empty-state">完成待办、记录心情或添加收藏后，这里会自动留下时间线。</p>';return}if(archiveDate==='all')archiveDate=dates[0]||'all';const entries=groups[archiveDate]||[];$('#archive-content').innerHTML=entries.length?entries.map(x=>`<div class="archive-entry"><span>${x.type}</span>${escapeHtml(x.text)}</div>`).join(''):'<p class="empty-state">这一天没有符合筛选条件的记录。</p>';$$('[data-archive-date]').forEach(btn=>btn.addEventListener('click',()=>{archiveDate=btn.dataset.archiveDate;renderArchive()}))}renderArchive();
+
+$('#add-time').addEventListener('click',()=>{const title=prompt('想给自己留什么时间？');if(title){const card=document.createElement('article');card.className='time-card teal-card';card.innerHTML=`<strong>${escapeHtml(title)}</strong><small>刚刚添加 · 给自己</small>`;$('#time-cards').append(card)}});
+function escapeHtml(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
