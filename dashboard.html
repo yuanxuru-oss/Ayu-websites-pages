@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#c5e8f0"><title>Ayu · Personal Dashboard</title>
+  <link rel="icon" type="image/png" href="ayu-penguin.png"><link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <main class="dashboard-shell">
+    <div class="dashboard-header">
+    <header class="topbar">
+      <a class="brand" href="index.html" aria-label="返回阿鱼主页"><img src="ayu-penguin.png" alt="阿鱼"></a><a class="back-home" href="index.html">← 回到鱼骨岛</a>
+      <div class="header-copy"><p>PERSONAL DASHBOARD</p><h1>你好，Yoselin <span>☼</span></h1></div>
+      <div class="header-tools"><time id="today-date" datetime="2026-08-11">2026.08.11</time><div class="mode-switcher" aria-label="模式切换"><button class="mode-btn is-active" data-mode="charge">充电</button><button class="mode-btn" data-mode="prod">生产力</button></div><div class="data-tools"><button class="tool-btn" id="export-md">Export .md ↓</button><button class="tool-btn" id="export-json">JSON ↓</button><button class="tool-btn" id="import-json">Import ↑</button><input id="import-file" type="file" accept=".json" hidden></div></div>
+    </header>
+
+    <nav class="tab-bar" aria-label="看板标签">
+      <button class="tab-btn is-active" data-tab="today">今天</button><button class="tab-btn" data-tab="input">输入</button>
+      <button class="tab-btn" data-tab="bookmarks">收藏</button><button class="tab-btn" data-tab="dreams">Dream List</button><button class="tab-btn" data-tab="archive">归档</button>
+    </nav>
+    </div>
+
+    <section class="productivity-panel" id="productivity-panel" aria-label="生产力模式">
+      <div class="feature-heading"><p class="kicker">PRODUCTIVITY MODE</p><h2>把注意力放在下一步。</h2><p>快速输入、项目推进和轻量记录，集中在一个安静的工作区。</p></div>
+      <form class="prod-smart panel" id="prod-smart-form"><textarea id="prod-smart-input" rows="3" placeholder="随便写点什么... 我会帮你分类"></textarea><div class="prod-smart-footer"><span>Enter 也可以发送</span><button class="btn btn-primary">发送</button></div><p class="smart-toast" id="prod-toast" role="status"></p></form>
+      <div class="prod-grid"><section class="panel"><div class="panel-head"><div><p class="kicker">WEEKLY</p><h3>本周重点</h3></div><span class="counter" id="weekly-count">0 / 5</span></div><form class="add-row" id="weekly-form"><input id="weekly-input" placeholder="本周大石头..."><button class="btn btn-soft">添加</button></form><ul class="priority-list" id="weekly-list"></ul></section><section class="panel"><div class="panel-head"><div><p class="kicker">PROJECTS</p><h3>项目</h3></div></div><form class="add-row" id="project-form"><input id="project-input" placeholder="新建项目..."><button class="btn btn-soft">添加</button></form><ul class="project-list" id="project-list"></ul></section></div>
+      <section class="panel notes-panel"><div class="panel-head"><div><p class="kicker">QUICK NOTES</p><h3>快速笔记</h3></div><span class="counter" id="note-count">0</span></div><form class="add-row" id="note-form"><input id="note-input" placeholder="记录一个想法，按回车保存..."><button class="btn btn-soft">保存</button></form><ul class="note-list" id="note-list"></ul></section>
+    </section>
+
+    <section class="tab-panel is-active" id="tab-today">
+      <div class="today-intro"><div><p class="kicker">MONDAY, AUGUST 11</p><h2>今天，慢慢来。</h2><p>把注意力放在真正重要的几件事上，剩下的留给明天。</p></div><div class="focus-card"><label for="focus-input">TODAY'S FOCUS</label><div class="inline-field"><input id="focus-input" value="让作品集首页更接近心里想要的样子"><button class="btn btn-icon" id="save-focus" title="保存">✓</button></div><small id="save-status" role="status"></small></div></div>
+      <div class="today-grid">
+        <section class="panel todo-panel"><div class="panel-head"><div><p class="kicker">TO-DO</p><h3 id="todo-title">今天要做</h3></div><span class="counter" id="todo-stat">0 / 0</span></div><div class="todo-tabs"><button class="todo-filter is-active" data-filter="today">今天</button><button class="todo-filter" data-filter="yesterday">昨天</button><button class="todo-filter" data-filter="tomorrow">明天</button></div><form class="add-row" id="todo-form"><input id="todo-input" placeholder="添加一件小事..." autocomplete="off"><button class="btn btn-primary">添加</button></form><ul class="todo-list" id="todo-list"></ul></section>
+        <section class="panel calendar-panel"><div class="panel-head"><div><p class="kicker">MOOD CALENDAR</p><h3 id="calendar-title">2026 年 8 月</h3></div><div class="calendar-nav"><button class="btn btn-icon" id="prev-month" aria-label="上个月">‹</button><button class="btn btn-icon" id="next-month" aria-label="下个月">›</button></div></div><div class="mood-legend"><span>点一天记录心情</span><span>😊　🌱　🌧️　✨</span></div><div class="calendar-grid" id="calendar-grid"></div></section>
+      </div>
+      <div class="today-grid lower-grid"><section class="panel quick-panel"><div class="panel-head"><div><p class="kicker">WEEKLY PRIORITIES</p><h3>本周重点</h3></div><span class="counter">3</span></div><ul class="priority-list"><li><span class="priority-dot teal"></span><span>完成作品集首页首屏</span><button class="mini-action" data-priority="0">调整</button></li><li><span class="priority-dot yellow"></span><span>整理丝路项目过程稿</span><button class="mini-action" data-priority="1">调整</button></li><li><span class="priority-dot pink"></span><span>写一篇个人 IP 笔记</span><button class="mini-action" data-priority="2">调整</button></li></ul></section><section class="panel time-panel"><div class="panel-head"><div><p class="kicker">A LITTLE TIME FOR ME</p><h3>属于自己的时间</h3></div><button class="btn btn-soft" id="add-time">+ 添加</button></div><div class="time-cards" id="time-cards"><article class="time-card teal-card"><strong>散步 & 观察</strong><small>16:30 · 30 min</small></article><article class="time-card blue-card"><strong>读几页书</strong><small>睡前 · 不设目标</small></article></div><div class="spark-inline"><p class="kicker">SPARKS</p><form class="add-row" id="spark-form"><input id="spark-input" placeholder="闪过什么念头..."><button class="btn btn-yellow">贴上</button></form><div class="spark-list" id="spark-list"></div></div></section></div>
+    </section>
+
+    <section class="tab-panel" id="tab-input"><div class="feature-heading"><p class="kicker">SMART INPUT</p><h2>把脑中的东西放下来。</h2><p>选择一个类型，输入内容，它会被放到对应的工作区。</p></div><form class="smart-input" id="smart-form"><div class="input-type-row"><button type="button" class="type-pill is-active" data-type="todo">待办</button><button type="button" class="type-pill" data-type="idea">灵感</button><button type="button" class="type-pill" data-type="bookmark">收藏</button><button type="button" class="type-pill" data-type="dream">Dream</button></div><div class="smart-field"><input id="smart-input" placeholder="比如：周五之前完成项目提案" autocomplete="off"><button class="btn btn-primary">放进去 <span>→</span></button></div><p class="smart-toast" id="smart-toast" role="status"></p></form><div class="input-guide"><div><span class="guide-icon mint">✓</span><strong>待办</strong><small>需要行动的事</small></div><div><span class="guide-icon yellow">✦</span><strong>灵感</strong><small>想法、句子、参考</small></div><div><span class="guide-icon pink">↗</span><strong>收藏</strong><small>值得回看的链接</small></div><div><span class="guide-icon blue">♡</span><strong>Dream</strong><small>想去的地方和想做的事</small></div></div></section>
+
+    <section class="tab-panel" id="tab-bookmarks"><div class="feature-heading inline-heading"><div><p class="kicker">BOOKMARKS</p><h2>留住值得回看的东西。</h2></div><button class="btn btn-soft" id="new-bookmark">+ 新收藏</button></div><form class="add-bookmark panel" id="bookmark-form"><div class="form-grid"><input id="bookmark-name" placeholder="标题"><input id="bookmark-url" placeholder="https://..." type="url"><input id="bookmark-desc" placeholder="一句描述（可选）"></div><button class="btn btn-primary">保存收藏</button></form><div class="search-row"><input id="bookmark-search" placeholder="搜索收藏..."><span id="bookmark-count">0 条</span></div><div class="bookmark-grid" id="bookmark-grid"></div></section>
+
+    <section class="tab-panel" id="tab-dreams"><div class="feature-heading"><p class="kicker">DREAM LIST</p><h2>还没发生，但可以先写下来。</h2><p>不急着完成，先让它们有一个位置。</p></div><form class="dream-form" id="dream-form"><input id="dream-input" placeholder="我想要..."><button class="btn btn-yellow">加入 Dream List</button></form><ul class="dream-list" id="dream-list"></ul></section>
+
+    <section class="tab-panel" id="tab-archive"><div class="feature-heading inline-heading"><div><p class="kicker">ARCHIVE</p><h2>那些已经发生过的。</h2></div><select id="archive-filter" class="select-control"><option value="all">全部记录</option><option value="todo">待办</option><option value="idea">灵感</option><option value="dream">Dream</option></select></div><div class="archive-layout"><div class="archive-date-list" id="archive-date-list"></div><div class="archive-content panel" id="archive-content"><p class="empty-state">选择左侧日期，查看当天归档。</p></div></div></section>
+  </main>
+  <div class="modal" id="mood-modal" hidden><div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="mood-modal-title"><button class="modal-close btn btn-icon" id="close-mood" aria-label="关闭">×</button><p class="kicker">MOOD NOTE</p><h3 id="mood-modal-title">今天是什么感觉？</h3><div class="mood-options"><button data-mood="😊">😊<small>开心</small></button><button data-mood="🌱">🌱<small>平静</small></button><button data-mood="🌧️">🌧️<small>低电量</small></button><button data-mood="✨">✨<small>灵感满格</small></button></div><button class="btn btn-primary modal-save" id="save-mood">记录今天</button></div></div>
+  <script src="dashboard.js"></script>
+</body>
+</html>

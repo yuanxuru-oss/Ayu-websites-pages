@@ -484,6 +484,11 @@ body {
   border-color: rgba(114, 93, 66, 0.6);
   background: rgba(114, 93, 66, 0.08);
 }
+.dodo-btn.dodo-btn-dashboard,
+.dodo-btn.dodo-btn-dashboard:hover,
+.dodo-btn.dodo-btn-dashboard:focus {
+  text-decoration: none;
+}
 
 /* Primary confirm-style button (yellow, per Modal spec) */
 .dodo-btn.dodo-btn-primary {
@@ -1740,6 +1745,7 @@ body {
           <button class="dodo-btn" data-target="competitions"><span class="db-icon"><img src="icons/icon-variant.svg" alt=""></span>高光时刻</button>
           <button class="dodo-btn" data-target="works"><span class="db-icon"><img src="icons/icon-camera.svg" alt=""></span>创作画廊</button>
           <button class="dodo-btn" data-target="contact"><span class="db-icon"><img src="icons/icon-chat.svg" alt=""></span>留言信箱</button>
+          <a class="dodo-btn dodo-btn-dashboard" href="dashboard.html"><span class="db-icon"><img src="icons/icon-diy.svg" alt=""></span>工作台</a>
         </div>
       </div>
     </div>
@@ -1787,6 +1793,10 @@ body {
         <span class="island-icon"><img src="icons/icon-chat.svg" alt=""></span>
         <span class="island-label">信箱</span>
         <span class="island-hint">留言联系</span>
+      </a>
+      <a href="dashboard.html" class="island-card dashboard-island-card">
+        <span class="island-icon"><img src="icons/icon-diy.svg" alt=""></span>
+        <span class="island-label">工作台</span>
       </a>
     </div>
   </section>
