@@ -2154,7 +2154,7 @@ function getFreshContactLinks(siteData) {
 
 function seedSiteData(callback) {
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'site-data.json', true);
+  xhr.open('GET', 'site-data.json?updated=' + Date.now(), true);
   xhr.onload = function() {
     if (xhr.status === 200 || xhr.status === 0) {
       try {
@@ -2170,6 +2170,23 @@ function seedSiteData(callback) {
     callback(null);
   };
   xhr.onerror = function() { callback(null); };
+  xhr.send();
+}
+
+// Keep published highlights current even when an older list exists in this browser.
+function refreshPublishedHighlights(siteData) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'site-data.json?updated=' + Date.now(), true);
+  xhr.onload = function() {
+    if (xhr.status !== 200 && xhr.status !== 0) return;
+    try {
+      var fresh = JSON.parse(xhr.responseText);
+      if (!fresh || !Array.isArray(fresh.competitions)) return;
+      siteData.competitions = fresh.competitions;
+      localStorage.setItem(SITE_DATA_KEY, JSON.stringify(siteData));
+      renderAll(siteData);
+    } catch (e) {}
+  };
   xhr.send();
 }
 
@@ -2876,6 +2893,7 @@ function toggleLike() {
       try { localStorage.setItem(SITE_DATA_KEY, JSON.stringify(data)); } catch (e) {}
     }
     renderAll(data);
+    refreshPublishedHighlights(data);
   } else {
     seedSiteData(function(data) {
       if (data) {
@@ -2884,6 +2902,7 @@ function toggleLike() {
           try { localStorage.setItem(SITE_DATA_KEY, JSON.stringify(data)); } catch (e) {}
         }
         renderAll(data);
+        refreshPublishedHighlights(data);
       }
     });
   }
