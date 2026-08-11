@@ -10,7 +10,7 @@ $$('.tab-btn').forEach(btn=>btn.addEventListener('click',()=>{$$('.tab-btn').for
 $('#focus-input').value=state.focus;$('#save-focus').addEventListener('click',()=>{state.focus=$('#focus-input').value.trim()||seed.focus;save();$('#save-status').textContent='已保存到这个浏览器';setTimeout(()=>$('#save-status').textContent='',1600)});
 
 let todoFilter='today';
-const todoTitles={today:'今天要做',yesterday:'昨天要做',tomorrow:'明天要做'};
+const todoTitles={today:'今天要做',yesterday:'昨天做的',tomorrow:'明天要做'};
 const todoSeed=[{text:'整理作品集首页首屏叙事',day:'today',done:false},{text:'回复项目合作邮件',day:'today',done:false},{text:'把参考图归档到灵感库',day:'tomorrow',done:false}];
 if(!state.todos.length)state.todos=todoSeed;
 function renderTodos(){const list=$('#todo-list');$('#todo-title').textContent=todoTitles[todoFilter];const items=state.todos.filter(t=>t.day===todoFilter);list.innerHTML=items.length?items.map((t,i)=>`<li><label><input type="checkbox" data-todo="${state.todos.indexOf(t)}" ${t.done?'checked':''}><span class="check"></span><span>${escapeHtml(t.text)}</span></label><button class="delete-item" data-delete="${state.todos.indexOf(t)}" aria-label="删除">×</button></li>`).join(''):'<li class="empty-state">这一天还没有安排，留一点空白也很好。</li>';const done=items.filter(t=>t.done).length;$('#todo-stat').textContent=`${done} / ${items.length}`;$$('[data-todo]').forEach(input=>input.addEventListener('change',()=>{state.todos[+input.dataset.todo].done=input.checked;state.archive.unshift({type:'待办',text:state.todos[+input.dataset.todo].text,date:dateKey()});save();renderTodos()}));$$('[data-delete]').forEach(btn=>btn.addEventListener('click',()=>{state.todos.splice(+btn.dataset.delete,1);save();renderTodos()}))}
