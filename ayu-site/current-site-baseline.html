@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阿鱼 · Ayu — Welcome to My Island</title>
+<meta name="description" content="阿鱼（Ayu）的个人作品集网站。插画师、IP设计师，专注非遗文化与现代创意融合。动森小岛治愈风格。">
+<meta name="keywords" content="阿鱼,Ayu,插画师,IP设计,非遗文化,动森,作品集,illustrator,designer">
+<meta name="author" content="阿鱼 Ayu">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://yuanxuru-oss.github.io/Ayu-websites-pages/ayu-site/">
+<meta property="og:title" content="阿鱼 Ayu | 插画师 · IP设计师">
+<meta property="og:description" content="用温暖笔触讲非遗故事。动森小岛风作品集。">
+<meta property="og:image" content="https://yuanxuru-oss.github.io/Ayu-websites-pages/ayu-site/ayu-penguin.png">
+<meta property="og:url" content="https://yuanxuru-oss.github.io/Ayu-websites-pages/ayu-site/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="阿鱼 Ayu | 插画师 · IP设计师">
+<meta name="twitter:description" content="用温暖笔触讲非遗故事。动森小岛风作品集。">
+<meta name="twitter:image" content="https://yuanxuru-oss.github.io/Ayu-websites-pages/ayu-site/ayu-penguin.png">
+<link rel="icon" type="image/png" sizes="32x32" href="ayu-penguin.png">
+<link rel="apple-touch-icon" href="ayu-penguin.png">
+<link rel="stylesheet" href="assets/react-migration/baseline.css">
+</head>
+<body>
+
+<!-- === Loading Splash === -->
+<div class="loading-splash" id="loadingSplash">
+  <div class="loading-island">
+    <div class="loading-trunk"></div>
+    <div class="loading-frond"></div>
+    <div class="loading-frond"></div>
+    <div class="loading-frond"></div>
+    <div class="loading-frond"></div>
+    <div class="loading-frond"></div>
+    <div class="loading-frond"></div>
+    <div class="loading-coconut"></div>
+    <div class="loading-coconut"></div>
+    <div class="loading-ground"></div>
+    <span class="loading-fish f1">🐟</span>
+    <span class="loading-fish f2">🐠</span>
+  </div>
+  <div class="loading-progress-track">
+    <div class="loading-progress-fill" id="loadingFill"></div>
+  </div>
+  <div class="loading-label">阿鱼的小岛</div>
+</div>
+
+<div class="sky-bg"></div>
+
+<!-- Hidden SVG clipPath for animal-island-ui Modal blob -->
+<svg style="position:absolute;width:0;height:0" aria-hidden="true">
+  <defs>
+    <clipPath id="animal-modal-clip" clipPathUnits="objectBoundingBox">
+      <path d="M0.501,0.005 L0.501,0.005 L0.523,0.005 L0.549,0.006 C0.704,0.01,0.796,0.017,0.825,0.027 L0.827,0.028 C0.872,0.045,0.939,0.044,0.978,0.17 C1,0.254,1,0.365,0.99,0.505 L0.988,0.513 C0.979,0.558,0.971,0.598,0.965,0.633 C0.956,0.689,0.979,0.77,0.964,0.865 C0.953,0.928,0.921,0.966,0.869,0.979 C0.821,0.986,0.773,0.992,0.726,0.995 L0.712,0.996 L0.694,0.997 C0.648,1,0.586,1,0.507,1 L0.501,1 L0.464,1 C0.385,1,0.325,0.998,0.283,0.995 C0.234,0.992,0.184,0.987,0.133,0.979 C0.081,0.966,0.05,0.928,0.039,0.865 C0.023,0.77,0.047,0.689,0.037,0.633 C0.031,0.595,0.023,0.552,0.013,0.505 C-0.006,0.365,-0.002,0.254,0.024,0.17 C0.064,0.045,0.13,0.045,0.174,0.028 L0.175,0.028 C0.204,0.017,0.303,0.009,0.474,0.005 L0.501,0.005"/>
+    </clipPath>
+  </defs>
+</svg>
+
+<!-- === ENTRY OVERLAY === -->
+<div class="entry-overlay" id="entryOverlay">
+  <div class="entry-scene">
+    <div class="entry-penguin" id="entryPenguin">
+      <img src="ayu-penguin.png" alt="阿鱼">
+    </div>
+    <div class="dodo-modal">
+      <div class="dodo-body">
+        <div class="dodo-modal-title">🛩 DODO AIRLINES</div>
+        <div class="dodo-greeting" id="greeting"></div>
+        <div class="dodo-options">
+          <button class="dodo-btn dodo-btn-primary" data-target="hero"><span class="db-icon"><img src="icons/icon-map.svg" alt=""></span>岛屿广场</button>
+          <button class="dodo-btn" data-target="about"><span class="db-icon"><img src="icons/icon-miles.svg" alt=""></span>护照信息</button>
+          <button class="dodo-btn" data-target="resume"><span class="db-icon"><img src="icons/icon-design.svg" alt=""></span>简历下载</button>
+          <button class="dodo-btn" data-target="projects"><span class="db-icon"><img src="icons/icon-diy.svg" alt=""></span>项目工坊</button>
+          <button class="dodo-btn" data-target="competitions"><span class="db-icon"><img src="icons/icon-variant.svg" alt=""></span>高光时刻</button>
+          <button class="dodo-btn" data-target="works"><span class="db-icon"><img src="icons/icon-camera.svg" alt=""></span>创作画廊</button>
+          <button class="dodo-btn" data-target="contact"><span class="db-icon"><img src="icons/icon-chat.svg" alt=""></span>留言信箱</button>
+          <a class="dodo-btn dodo-btn-dashboard" href="dashboard.html"><span class="db-icon"><img src="icons/icon-diy.svg" alt=""></span>工作台</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- === MAIN CONTENT === -->
+<div class="main-content">
+
+  <!-- Hero / Island Plaza -->
+  <section class="hero" id="hero">
+    <div class="hero-penguin" onclick="document.getElementById('entryOverlay').classList.remove('dismissed');chime(880,0.12)">
+      <img src="ayu-penguin.png" alt="阿鱼">
+    </div>
+    <p class="hero-hint" id="heroHint">点一下企鹅跟我说话吧</p>
+    <h1 class="hero-title" id="heroTitle">阿鱼的小岛</h1>
+    <p class="hero-sub" id="heroSub">AI Creator & Designer · 安静做事，作品说话</p>
+    <div class="hero-islands">
+      <a href="#about" class="island-card">
+        <span class="island-icon"><img src="icons/icon-miles.svg" alt=""></span>
+        <span class="island-label">护照</span>
+        <span class="island-hint">关于阿鱼</span>
+      </a>
+      <a href="#resume" class="island-card resume-island-card" data-open-resume>
+        <span class="island-icon"><img src="icons/icon-design.svg" alt=""></span>
+        <span class="island-label">简历</span>
+        <span class="island-hint">下载简历</span>
+      </a>
+      <a href="#projects" class="island-card">
+        <span class="island-icon"><img src="icons/icon-diy.svg" alt=""></span>
+        <span class="island-label">工坊</span>
+        <span class="island-hint">AI 项目</span>
+      </a>
+      <a href="#works" class="island-card">
+        <span class="island-icon"><img src="icons/icon-camera.svg" alt=""></span>
+        <span class="island-label">画廊</span>
+        <span class="island-hint">AI 作品</span>
+      </a>
+      <a href="#competitions" class="island-card">
+        <span class="island-icon"><img src="icons/icon-variant.svg" alt=""></span>
+        <span class="island-label">高光</span>
+        <span class="island-hint">荣誉记录</span>
+      </a>
+      <a href="#contact" class="island-card">
+        <span class="island-icon"><img src="icons/icon-chat.svg" alt=""></span>
+        <span class="island-label">信箱</span>
+        <span class="island-hint">留言联系</span>
+      </a>
+      <a href="dashboard.html" class="island-card dashboard-island-card">
+        <span class="island-icon"><img src="icons/icon-diy.svg" alt=""></span>
+        <span class="island-label">工作台</span>
+      </a>
+    </div>
+  </section>
+
+  <div class="section-divider" style="color:#8ac68a"><svg width="297" height="14" viewBox="0 0 297 14"><path d="M20 10.42L33 11 28.002 0zM10 6.97L0 3l.858 9zM43 1l.613 11L53 5.585zm89 13l11-5.867L133.507 1zm67-3.58l13 .58-4.998-11zm-10-3.45L179 3l.858 9zM90.634 1L88 13l12-4.39zM155 13l12-2.4-8.47-9.6zM110 3l2.057 9L118 6.292zm-47 8.215L76 14 71.048 1zM222 1l.613 11L232 5.585zm47.634 0L267 13l12-4.39zM289 3l2.057 9L297 6.292zm-48 8.215L254 14l-4.952-13z" fill="currentColor" fill-rule="evenodd"/></svg></div>
+
+  <!-- Resume downloads -->
+  <section class="section-island resume-section" id="resume" data-theme="resume">
+    <button class="resume-close" id="resumeClose" type="button">× 关闭</button>
+    <div class="section-header">
+      <span class="section-stamp">RESUME DOWNLOAD</span>
+      <h2>📄 阿鱼的简历</h2>
+    </div>
+    <div class="resume-board">
+      <div class="resume-board-header">
+        <div class="resume-board-title"><img src="icons/icon-design.svg" alt=""><div><h3>选择你的简历方向</h3><p>点击按钮后会直接下载对应的 PDF。</p></div></div>
+      </div>
+      <div class="resume-download-grid">
+        <article class="resume-download-card">
+          <img src="icons/icon-design.svg" alt="">
+          <h4>设计方向简历</h4>
+          <p>面向视觉、IP、插画与品牌创意设计相关岗位。</p>
+          <a class="resume-download-btn" href="assets/resumes/design-resume.pdf" download><span>↓</span>下载 PDF</a>
+        </article>
+        <article class="resume-download-card product">
+          <img src="icons/icon-diy.svg" alt="">
+          <h4>产品方向简历</h4>
+          <p>面向 AI 产品、体验设计、项目策划与落地相关岗位。</p>
+          <a class="resume-download-btn" href="assets/resumes/product-resume.pdf" download><span>↓</span>下载 PDF</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- About / Passport -->
+  <section class="section-island" id="about" data-theme="about">
+    <div class="section-header">
+      <span class="section-stamp">DODO AIRLINES</span>
+      <h2>📋 岛民护照</h2>
+    </div>
+
+    <div class="passport-card">
+      <div class="passport-header">
+        <span class="dodo-icon"><img src="icons/icon-miles.svg" alt="" style="width:22px;height:22px;vertical-align:middle"></span>
+        <span class="dodo-label">AYU ISLAND · RESIDENT ID</span>
+      </div>
+      <div class="passport-body">
+        <div class="passport-avatar">
+          <img src="ayu-penguin.png" alt="阿鱼">
+        </div>
+        <div class="passport-fields">
+          <div class="passport-field">
+            <label>Name / 名字</label>
+            <div class="field-value" id="pfNameVal">阿鱼 · Ayu</div>
+          </div>
+          <div class="passport-field">
+            <label>Island / 岛屿</label>
+            <div class="field-value" id="pfIslandVal">鱼骨岛 · Fishbone Isle</div>
+          </div>
+          <div class="passport-field">
+            <label>Role / 角色</label>
+            <div class="field-value" id="pfRoleVal">AI Creator & Designer</div>
+          </div>
+          <div class="passport-field">
+            <label>Motto / 座右铭</label>
+            <div class="field-value" id="pfMottoVal">想做却不敢做的事，你一定要做。</div>
+          </div>
+        </div>
+        <div class="passport-stamp" title="入境章">✅</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider" style="color:#82d5bb"><svg width="297" height="14" viewBox="0 0 297 14"><path d="M20 10.42L33 11 28.002 0zM10 6.97L0 3l.858 9zM43 1l.613 11L53 5.585zm89 13l11-5.867L133.507 1zm67-3.58l13 .58-4.998-11zm-10-3.45L179 3l.858 9zM90.634 1L88 13l12-4.39zM155 13l12-2.4-8.47-9.6zM110 3l2.057 9L118 6.292zm-47 8.215L76 14 71.048 1zM222 1l.613 11L232 5.585zm47.634 0L267 13l12-4.39zM289 3l2.057 9L297 6.292zm-48 8.215L254 14l-4.952-13z" fill="currentColor" fill-rule="evenodd"/></svg></div>
+
+  <!-- Projects -->
+  <section class="section-island" id="projects" data-theme="projects">
+    <div class="section-header">
+      <span class="section-stamp">WORKSHOP</span>
+      <h2>🛠️ 项目工坊</h2>
+    </div>
+    <div class="card-grid" id="projectsGrid"></div>
+  </section>
+
+  <div class="section-divider" style="color:#f8a6b2"><svg width="297" height="14" viewBox="0 0 297 14"><path d="M20 10.42L33 11 28.002 0zM10 6.97L0 3l.858 9zM43 1l.613 11L53 5.585zm89 13l11-5.867L133.507 1zm67-3.58l13 .58-4.998-11zm-10-3.45L179 3l.858 9zM90.634 1L88 13l12-4.39zM155 13l12-2.4-8.47-9.6zM110 3l2.057 9L118 6.292zm-47 8.215L76 14 71.048 1zM222 1l.613 11L232 5.585zm47.634 0L267 13l12-4.39zM289 3l2.057 9L297 6.292zm-48 8.215L254 14l-4.952-13z" fill="currentColor" fill-rule="evenodd"/></svg></div>
+
+  <!-- Works Gallery (Corkboard Memo style) -->
+  <section class="section-island" id="works" data-theme="works">
+    <div class="section-header">
+      <span class="section-stamp">GALLERY</span>
+      <h2>🎨 创作画廊</h2>
+    </div>
+    <div class="gallery-board">
+      <div class="gallery-filter-bar" aria-label="作品分类筛选">
+        <button class="gallery-filter-tag active" type="button" data-filter="all">全部</button>
+        <button class="gallery-filter-tag" type="button" data-filter="ip">IP 设计</button>
+        <button class="gallery-filter-tag" type="button" data-filter="illust">插画</button>
+        <button class="gallery-filter-tag" type="button" data-filter="heritage">非遗文化</button>
+      </div>
+      <div class="gallery-auto-grid" id="galleryTrack">
+        <!-- Dynamically rendered by loadWorks() / renderGallery() -->
+      </div>
+    </div>
+  </section>
+
+  <!-- === Work Detail — AC Dashboard === -->
+  <div class="work-detail-overlay" id="workDetailOverlay">
+    <!-- Page header: back left + logo right -->
+    <div class="sp-header">
+      <button class="sp-nav-back" id="workDetailBack">◂ 返回画廊</button>
+      <div class="sp-header-logo">
+        <img src="ayu-penguin.png" alt="">
+        <span>阿鱼的小岛</span>
+      </div>
+    </div>
+    <!-- Dashboard body: main + sidebar -->
+    <div class="sp-page">
+      <!-- Main content column -->
+      <div class="sp-main-col">
+        <div class="sp-card">
+          <!-- Pattern card hero -->
+          <div class="sp-hero-card">
+            <img class="sp-hero-img" id="spHeroImg" src="" alt="">
+          </div>
+          <div class="sp-container">
+            <!-- Title + meta -->
+            <h2 class="sp-title" id="spTitle"></h2>
+            <div class="sp-meta">
+              <span class="sp-date" id="spDate"></span>
+              <span class="sp-tags" id="spTags"></span>
+            </div>
+            <!-- Description -->
+            <div class="sp-desc" id="spDesc"></div>
+            <!-- Extra images -->
+            <div class="sp-extra" id="spExtra"></div>
+            <button class="sp-back-bottom" id="workDetailBack2">◂ 返回画廊</button>
+          </div>
+        </div>
+      </div>
+      <!-- AC Dashboard Sidebar -->
+      <div class="sp-side-col">
+        <!-- User header + stats widget -->
+        <div class="sp-widget">
+          <div class="sp-user-header">
+            <div class="sp-user-avatar"><img src="ayu-penguin.png" alt=""></div>
+            <div>
+              <div class="sp-user-name">阿鱼</div>
+              <div class="sp-user-role">AI Creator & Designer</div>
+            </div>
+          </div>
+          <div class="sp-stats-row">
+            <div class="sp-stat-item">
+              <div class="sp-stat-value">3</div>
+              <div class="sp-stat-label">项目</div>
+            </div>
+            <div class="sp-stat-item">
+              <div class="sp-stat-value">2</div>
+              <div class="sp-stat-label">作品</div>
+            </div>
+            <div class="sp-stat-item">
+              <div class="sp-stat-value">2</div>
+              <div class="sp-stat-label">竞赛</div>
+            </div>
+          </div>
+          <div class="sp-daily-status">
+            <span class="sp-daily-icon">✉️</span>
+            <span class="sp-daily-text">欢迎留言互动</span>
+            <span class="sp-daily-time">现在</span>
+          </div>
+        </div>
+        <!-- Activity widget -->
+        <div class="sp-widget">
+          <div class="sp-activity-section">
+            <div class="sp-section-label">作品 <a class="sp-see-all" href="#works">全部 →</a></div>
+            <div class="sp-activity-tiles">
+              <div class="sp-activity-tile">
+                <div class="sp-tile-icon">🐧</div>
+                <div class="sp-tile-info">
+                  <div class="sp-tile-name">IP 角色</div>
+                  <div class="sp-tile-date">2026.07</div>
+                </div>
+              </div>
+              <div class="sp-activity-tile">
+                <div class="sp-tile-icon">🐟</div>
+                <div class="sp-tile-info">
+                  <div class="sp-tile-name">鱼骨头</div>
+                  <div class="sp-tile-date">2026.06</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="sp-activity-section">
+            <div class="sp-section-label">竞赛 <a class="sp-see-all" href="#competitions">全部 →</a></div>
+            <div class="sp-activity-tiles">
+              <div class="sp-activity-tile">
+                <div class="sp-tile-icon">🏅</div>
+                <div class="sp-tile-info">
+                  <div class="sp-tile-name">创新赛</div>
+                  <div class="sp-tile-date">进行中</div>
+                </div>
+              </div>
+              <div class="sp-activity-tile">
+                <div class="sp-tile-icon">🎯</div>
+                <div class="sp-tile-info">
+                  <div class="sp-tile-name">马拉松</div>
+                  <div class="sp-tile-date">筹备中</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Like + Contact widget -->
+        <div class="sp-widget">
+          <!-- Like button -->
+          <button class="sp-like-btn" id="spLikeBtn" onclick="toggleLike()">
+            <span class="like-heart">🤍</span>
+            <span>喜欢这个作品</span>
+            <span class="like-count" id="likeCount">0</span>
+          </button>
+          <!-- Contact links -->
+          <div class="sp-activity-section" style="margin-bottom:0;margin-top:14px">
+            <div class="sp-section-label">联系阿鱼</div>
+            <div class="sp-contact-list">
+              <a class="sp-contact-item" href="mailto:924386950@qq.com">
+                <div class="sp-contact-icon"><img src="icons/icon-chat.svg" alt="" style="width:100%;height:100%;object-fit:contain"></div>
+                <div class="sp-contact-info">
+                  <div class="sp-contact-name">邮箱</div>
+                  <div class="sp-contact-hint">924386950@qq.com</div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sp-penguin"><img src="ayu-penguin.png" alt=""></div>
+  </div>
+
+  <div class="section-divider" style="color:#e59266"><svg width="297" height="14" viewBox="0 0 297 14"><path d="M20 10.42L33 11 28.002 0zM10 6.97L0 3l.858 9zM43 1l.613 11L53 5.585zm89 13l11-5.867L133.507 1zm67-3.58l13 .58-4.998-11zm-10-3.45L179 3l.858 9zM90.634 1L88 13l12-4.39zM155 13l12-2.4-8.47-9.6zM110 3l2.057 9L118 6.292zm-47 8.215L76 14 71.048 1zM222 1l.613 11L232 5.585zm47.634 0L267 13l12-4.39zM289 3l2.057 9L297 6.292zm-48 8.215L254 14l-4.952-13z" fill="currentColor" fill-rule="evenodd"/></svg></div>
+
+  <!-- Island Highlights / Awards -->
+  <section class="section-island" id="competitions" data-theme="competitions">
+    <div class="section-header">
+      <span class="section-stamp">HIGHLIGHTS</span>
+      <h2>✨ 小岛高光时刻</h2>
+    </div>
+    <div class="card-grid" id="competitionsGrid"></div>
+  </section>
+
+  <div class="section-divider" style="color:#889df0"><svg width="297" height="14" viewBox="0 0 297 14"><path d="M20 10.42L33 11 28.002 0zM10 6.97L0 3l.858 9zM43 1l.613 11L53 5.585zm89 13l11-5.867L133.507 1zm67-3.58l13 .58-4.998-11zm-10-3.45L179 3l.858 9zM90.634 1L88 13l12-4.39zM155 13l12-2.4-8.47-9.6zM110 3l2.057 9L118 6.292zm-47 8.215L76 14 71.048 1zM222 1l.613 11L232 5.585zm47.634 0L267 13l12-4.39zM289 3l2.057 9L297 6.292zm-48 8.215L254 14l-4.952-13z" fill="currentColor" fill-rule="evenodd"/></svg></div>
+
+  <!-- Contact / Message Board -->
+  <section class="section-island" id="contact" data-theme="contact">
+    <div class="section-header">
+      <span class="section-stamp">POST OFFICE</span>
+      <h2>📮 岛民留言板</h2>
+    </div>
+
+    <!-- Passport creation form -->
+    <div class="passport-form" id="passportForm">
+      <div class="pf-header">
+        <span class="pf-logo">🛩️ ISLAND PASSPORT</span>
+        <span class="pf-sub">创建你的岛民护照，留下足迹</span>
+      </div>
+      <div class="pf-body">
+        <div class="pf-avatar-pick">
+          <div class="pf-avatar-preview" id="pfAvatarPreview">🐧</div>
+          <div class="pf-emoji-grid" id="pfEmojiGrid"></div>
+        </div>
+        <div class="pf-fields">
+          <div class="pf-field">
+            <label>NAME · 名字</label>
+            <input type="text" id="pfName" placeholder="你的岛民名字…" maxlength="12">
+          </div>
+          <div class="pf-field">
+            <label>MESSAGE · 留言</label>
+            <textarea id="pfMessage" placeholder="想对阿鱼说的话…" maxlength="200" rows="3"></textarea>
+          </div>
+          <button class="pf-submit" id="pfSubmit">📬 投递护照</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Passport wall -->
+    <div class="passport-wall" id="passportWall"></div>
+
+    <!-- Contact links row -->
+    <div id="socialLinksContainer"></div>
+  </section>
+
+  <!-- Footer Sea -->
+  <div class="footer-sea"><img src="footer-sea.svg" alt="" style="width:100%;height:auto;display:block"></div>
+
+  <!-- Footer -->
+  <div class="site-footer">
+    Made with 🛩️ on Ayu Island · <a href="https://github.com/yuanxuru-oss" style="color:var(--island-green)">GitHub</a>
+  </div>
+</div>
+
+<button class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回顶部">↑</button>
+
+<script src="assets/react-migration/baseline.js"></script>
+</body>
+</html>
