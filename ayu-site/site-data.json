@@ -40,6 +40,14 @@
       "desc": "你现在看到的这个网站。企鹅岛民互动式个人名片。",
       "link": "",
       "linkText": "你就在这里 →"
+    },
+    {
+      "id": "proj-teahouse-sos",
+      "title": "🍵 茶记救急中",
+      "tags": ["互动游戏", "叙事体验", "AIGC"],
+      "desc": "从加载页进入茶馆大厅、选人和游戏界面的互动叙事小游戏，在轻松的节奏里完成一场小小的救急任务。",
+      "link": "https://chaji-jiujizhong.netlify.app/",
+      "linkText": "开始体验 →"
     }
   ],
   "competitions": [
